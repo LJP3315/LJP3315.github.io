@@ -1,7 +1,7 @@
 ---
 layout: home
 author_profile: true
-title: "LJP 的个人博客"
+title: "李佳鹏 的个人博客"
 ---
 
 ## 👋 关于我
