@@ -114,11 +114,11 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Name"
+  name             : LJP
   avatar           : /assets/images/avatar.jpg
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
-  email            :
+  bio              : 软件工程在读 | 游戏客户端 / 算法
+  location         : China
+  email            : 3382353764@qq.com
   # fediverse      : "@you@instance.social"  # used for fediverse:creator meta tag
   links:
     - label: "Email"
@@ -133,9 +133,9 @@ author:
     - label: "Facebook"
       icon: "fab fa-fw fa-square-facebook"
       # url: "https://facebook.com/"
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
+    - label: GitHub
+      icon: fab fa-github
+      url: https://github.com/LJP3315
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
