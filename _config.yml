@@ -17,7 +17,7 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 # Site Settings
 locale                   : "en-US"
 direction                : # "ltr" (default), "rtl" # set the direction of the page
-title                    : LJP的博客
+title                    : 离暗的博客
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Your Name"
@@ -114,7 +114,7 @@ analytics:
 
 # Site Author
 author:
-  name             : LJP
+  name             : 李佳鹏
   avatar           : /assets/images/avatar.jpg
   bio              : 软件工程在读 | 游戏客户端 / 算法
   location         : China
