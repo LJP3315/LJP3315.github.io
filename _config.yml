@@ -117,7 +117,7 @@ author:
   name             : 李佳鹏
   avatar           : /assets/images/avatar.jpg
   bio              : 软件工程在读 | 游戏客户端 / 算法
-  location         : China
+  location         : China-ChangSha
   email            : 3382353764@qq.com
   # fediverse      : "@you@instance.social"  # used for fediverse:creator meta tag
   links:
@@ -248,7 +248,7 @@ pagination:
   # Set enabled to true to use paginate v2
   # enabled: true
   debug: false
-  collection: 'posts'
+  collection: "post: output: true"
   per_page: 10
   permalink: '/page/:num/'
   title: ':title - page :num'
