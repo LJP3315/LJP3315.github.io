@@ -8,6 +8,19 @@ search: false
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
+// 正文字体使用霞鹜文楷
+body,
+.page__content,
+.archive__item,
+.sidebar,
+.masthead,
+.page__title,
+.page__meta,
+.author__name,
+.nav__items {
+  font-family: 'LXGW WenKai', 'Noto Sans SC', sans-serif;
+}
+
 // 代码字体使用 Fira Code
 code,
 pre,
