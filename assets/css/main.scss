@@ -15,6 +15,29 @@ search: false
   font-family: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', serif !important;
 }
 
+// ========= 图标字体恢复（防止被通配符覆盖导致显示为叉）=========
+// Font Awesome 5/6 Solid, Regular, Light
+.fas,
+.far,
+.fal,
+.fas::before,
+.far::before,
+.fal::before {
+  font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
+}
+
+// Font Awesome Brands
+.fab,
+.fab::before {
+  font-family: "Font Awesome 6 Brands", "Font Awesome 5 Brands", "FontAwesome" !important;
+}
+
+// SVG inline icons (fontawesome-svg-core)
+.svg-inline--fa {
+  font-family: "Font Awesome 6 Free", "Font Awesome 5 Free" !important;
+}
+// ===============================================================
+
 // 代码字体单独覆盖回等宽字体（不使用思源宋体）
 code,
 pre,
