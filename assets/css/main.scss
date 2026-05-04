@@ -8,29 +8,23 @@ search: false
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-// 正文字体使用思源宋体
-body,
-.page__content,
-.page__content p,
-.page__content li,
-.page__content dt,
-.page__content dd,
-.archive__item,
-.sidebar,
-.masthead,
-.page__title,
-.page__meta,
-.author__name,
-.nav__items {
+// 正文字体全局使用思源宋体（覆盖全站所有元素）
+*,
+*::before,
+*::after {
   font-family: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', serif !important;
 }
 
-// 代码字体使用 Fira Code
+// 代码字体单独覆盖回等宽字体（不使用思源宋体）
 code,
 pre,
 kbd,
 samp,
-tt {
+tt,
+.highlight,
+.highlight *,
+.highlight *::before,
+.highlight *::after {
   font-family: 'Fira Code', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace !important;
 }
 
