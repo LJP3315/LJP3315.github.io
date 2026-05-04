@@ -8,9 +8,13 @@ search: false
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-// 正文字体使用霞鹜文楷
+// 正文字体使用霞鹜文楷（加强优先级）
 body,
 .page__content,
+.page__content p,
+.page__content li,
+.page__content dt,
+.page__content dd,
 .archive__item,
 .sidebar,
 .masthead,
@@ -18,7 +22,7 @@ body,
 .page__meta,
 .author__name,
 .nav__items {
-  font-family: 'LXGW WenKai', 'Noto Sans SC', sans-serif;
+  font-family: 'LXGW WenKai', 'Noto Sans SC', sans-serif !important;
 }
 
 // 代码字体使用 Fira Code
