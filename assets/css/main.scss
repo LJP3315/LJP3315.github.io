@@ -149,84 +149,106 @@ pre code {
   overflow-x: visible !important;
 }
 
-// VS Code Light+ 代码高亮主题
-// 适合白色背景，注释为深绿色斜体，对比鲜明
+// GitHub Light 代码高亮主题
+// GitHub 原生浅色配色，注释灰色斜体，整体柔和清晰
 .highlight {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #f6f8fa;
+  color: #24292e;
 
-  // 基础语法高亮
-  .c      { color: #008000; font-style: italic }  // 注释 — 深绿色斜体
-  .err    { color: #a31515 }                       // 错误
-  .k      { color: #0000ff }                       // 关键字
-  .l      { color: #000000 }                       // 字面量
-  .n      { color: #000000 }                       // 数字
-  .o      { color: #000000 }                       // 运算符
-  .p      { color: #000000 }                       // 标点
-  .cm     { color: #008000; font-style: italic }  // 注释（多行）
-  .cp     { color: #008000; font-style: italic }  // 预处理注释
-  .c1     { color: #008000; font-style: italic }  // 注释（单行）
-  .cs     { color: #008000; font-style: italic }  // 注释（特殊）
-  .gd     { color: #a31515; background-color: rgba(163,21,21,.1) }  // 删除行
-  .ge     { color: #000000; font-style: italic }  // 斜体
-  .gh     { color: #0000ff; font-weight: 500 }    // 标题
-  .gi     { color: #098658; background-color: rgba(9,134,88,.1) }  // 新增行
-  .gp     { color: #0000ff; font-weight: 500 }    // 提示
-  .gs     { color: #000000; font-weight: 500 }    // 加粗
-  .gu     { color: #0000ff; font-weight: 500 }    // 小标题
-  .kc     { color: #0000ff }                       // 关键字（常量）
-  .kd     { color: #0000ff }                       // 关键字（声明）
-  .kn     { color: #0000ff }                       // 关键字（命名空间）
-  .kp     { color: #0000ff }                       // 关键字（伪）
-  .kr     { color: #0000ff }                       // 关键字（保留）
-  .kt     { color: #0000ff }                       // 关键字（类型）
-  .ld     { color: #000000 }                       // 日期
-  .m      { color: #098658 }                       // 数字
-  .na     { color: #267f99 }                       // 属性
-  .nb     { color: #0070c1 }                       // 内置
-  .nc     { color: #267f99 }                       // 类名
-  .no     { color: #a31515 }                       // 常量
-  .nd     { color: #795e26 }                       // 装饰器
-  .ni     { color: #0070c1 }                       // 实体
-  .ne     { color: #a31515 }                       // 异常
-  .nf     { color: #795e26 }                       // 函数名
-  .nl     { color: #267f99 }                       // 标签
-  .nn     { color: #267f99 }                       // 命名空间
-  .nx     { color: #000000 }                       // 其他
-  .py     { color: #267f99 }                       // 属性
-  .nt     { color: #267f99 }                       // 标签
-  .nv     { color: #001080 }                       // 变量
-  .ow     { color: #0000ff }                       // 运算关键字
-  .w      { color: #000000 }                       // 空白
-  .mf     { color: #098658 }                       // 浮点数
-  .mh     { color: #098658 }                       // 十六进制数
-  .mi     { color: #098658 }                       // 整数
-  .mo     { color: #098658 }                       // 八进制数
-  .sb     { color: #a31515 }                       // 字符串（反引号）
-  .sc     { color: #a31515 }                       // 字符
-  .sd     { color: #a31515; font-style: italic }  // 字符串（文档）
-  .s2     { color: #a31515 }                       // 字符串（双引号）
-  .se     { color: #a31515 }                       // 字符串（转义）
-  .sh     { color: #a31515; font-style: italic }  // 字符串（heredoc）
-  .si     { color: #a31515; font-style: italic }  // 字符串（插值）
-  .sx     { color: #a31515 }                       // 字符串（其他）
-  .sr     { color: #a31515 }                       // 字符串（正则）
-  .s1     { color: #a31515 }                       // 字符串（单引号）
-  .ss     { color: #a31515 }                       // 字符串（符号）
-  .vc     { color: #001080 }                       // 变量（类）
-  .vg     { color: #001080 }                       // 变量（全局）
-  .vi     { color: #001080 }                       // 变量（实例）
-  .il     { color: #098658 }                       // 数字（长整数）
+  // 注释 — 灰色斜体，清晰不刺眼
+  .c      { color: #6a737d; font-style: italic }
+  .cm     { color: #6a737d; font-style: italic }
+  .cp     { color: #6a737d; font-style: italic }
+  .c1     { color: #6a737d; font-style: italic }
+  .cs     { color: #6a737d; font-style: italic }
+
+  // 错误 / 异常
+  .err    { color: #b31d28 }
+
+  // 关键字（红色）
+  .k      { color: #d73a49 }
+  .kc     { color: #d73a49 }
+  .kd     { color: #d73a49 }
+  .kn     { color: #d73a49 }
+  .kp     { color: #d73a49 }
+  .kr     { color: #d73a49 }
+  .kt     { color: #d73a49 }
+
+  // 字面量 / 数字（蓝色）
+  .l      { color: #005cc5 }
+  .m      { color: #005cc5 }
+  .mf     { color: #005cc5 }
+  .mh     { color: #005cc5 }
+  .mi     { color: #005cc5 }
+  .mo     { color: #005cc5 }
+  .il     { color: #005cc5 }
+
+  // 运算符
+  .o      { color: #24292e }
+  .ow     { color: #d73a49 }
+
+  // 标点
+  .p      { color: #24292e }
+
+  // 字符串（深蓝）
+  .s      { color: #032f62 }
+  .sb     { color: #032f62 }
+  .sc     { color: #032f62 }
+  .sd     { color: #032f62; font-style: italic }
+  .s2     { color: #032f62 }
+  .se     { color: #032f62 }
+  .sh     { color: #032f62; font-style: italic }
+  .si     { color: #032f62; font-style: italic }
+  .sx     { color: #032f62 }
+  .sr     { color: #032f62 }
+  .s1     { color: #032f62 }
+  .ss     { color: #032f62 }
+
+  // 内置 / 变量名（蓝色）
+  .nb     { color: #005cc5 }
+  .bp     { color: #005cc5 }
+  .nv     { color: #24292e }
+  .vc     { color: #24292e }
+  .vg     { color: #24292e }
+  .vi     { color: #24292e }
+
+  // 类名 / 函数名（紫色）
+  .nc     { color: #6f42c1 }
+  .nd     { color: #6f42c1 }
+  .nf     { color: #005cc5 }
+  .nl     { color: #6f42c1 }
+  .nn     { color: #6f42c1 }
+
+  // 属性 / 标签（绿色）
+  .na     { color: #005cc5 }
+  .nt     { color: #22863a }
+
+  // 其他
+  .nx     { color: #24292e }
+  .n      { color: #24292e }
+  .w      { color: #24292e }
+
+  // diff 高亮（删除 / 新增）
+  .gd     { color: #b31d28; background-color: #ffeef0 }
+  .gi     { color: #176f2c; background-color: #f0fff4 }
+
+  // 样式
+  .ge     { color: #24292e; font-style: italic }
+  .gs     { color: #24292e; font-weight: 600 }
+  .gh     { color: #005cc5; font-weight: 600 }
+  .gp     { color: #005cc5; font-weight: 600 }
+  .gu     { color: #6f42c1; font-weight: 600 }
+  .ne     { color: #b31d28 }
 
   // 行号样式
   .lineno {
-    color: #237893;
+    color: #959da5;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
   }
 
-  // 滚动条（Webkit）— 浅色风格
+  // 滚动条（Webkit）— GitHub 风格
   &::-webkit-scrollbar {
     height: 8px;
   }
