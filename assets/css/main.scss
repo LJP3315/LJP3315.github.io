@@ -9,39 +9,7 @@ search: false
 @import "minimal-mistakes"; // main partials
 
 // ========= 正文区域加宽 =========
-// 扩大整体页面最大宽度（默认约 1280px，改为 1600px）
-.page__inner-wrap {
-  max-width: 100%;
-}
-
-// 扩大文章内容区的最大宽度
-.page {
-  width: 100%;
-}
-
-// 提升页面整体容器宽度上限
-.page__content,
-.page__title,
-.page__meta,
-.page__share,
-.page__comments,
-.page__related {
-  max-width: 100%;
-}
-
-// 正文内容栏加宽（有 sidebar/作者栏时生效）
-@media (min-width: 80em) {
-  .page__content {
-    float: right;
-    width: calc(100% - 260px); // 260px 留给作者栏，其余全部给正文
-  }
-}
-
-// 整体容器最大宽度从默认 1280px 扩展到 1600px
-.layout--single .page__inner-wrap {
-  max-width: 1600px;
-}
-
+// 只扩大外层容器，内部布局完全由主题自行控制，避免重叠
 .wrapper {
   max-width: 1600px !important;
 }
