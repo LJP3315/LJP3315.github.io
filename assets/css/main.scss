@@ -8,6 +8,45 @@ search: false
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
+// ========= 正文区域加宽 =========
+// 扩大整体页面最大宽度（默认约 1280px，改为 1600px）
+.page__inner-wrap {
+  max-width: 100%;
+}
+
+// 扩大文章内容区的最大宽度
+.page {
+  width: 100%;
+}
+
+// 提升页面整体容器宽度上限
+.page__content,
+.page__title,
+.page__meta,
+.page__share,
+.page__comments,
+.page__related {
+  max-width: 100%;
+}
+
+// 正文内容栏加宽（有 sidebar/作者栏时生效）
+@media (min-width: 80em) {
+  .page__content {
+    float: right;
+    width: calc(100% - 260px); // 260px 留给作者栏，其余全部给正文
+  }
+}
+
+// 整体容器最大宽度从默认 1280px 扩展到 1600px
+.layout--single .page__inner-wrap {
+  max-width: 1600px;
+}
+
+.wrapper {
+  max-width: 1600px !important;
+}
+// =================================
+
 // 正文字体全局使用思源宋体（覆盖全站所有元素）
 *,
 *::before,
@@ -49,6 +88,21 @@ tt,
 .highlight *::before,
 .highlight *::after {
   font-family: 'Fira Code', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace !important;
+}
+
+// 代码块横向滚动（防止长代码被截断）
+pre,
+.highlight {
+  overflow-x: auto !important;
+  white-space: pre !important;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  max-width: 100%;
+}
+
+pre code {
+  white-space: pre !important;
+  overflow-x: visible !important;
 }
 
 // One Dark 代码高亮主题
