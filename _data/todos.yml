@@ -1,0 +1,15 @@
+- name: "蓝桥杯比赛"
+  date: 2026-06-15
+  icon: "🏆"
+
+- name: "GameJam 活动"
+  date: 2026-08-01
+  icon: "🎮"
+
+- name: "2026 天梯赛"
+  date: 2026-11-20
+  icon: "🏅"
+
+- name: "学期末考试"
+  date: 2027-01-10
+  icon: "📚"
