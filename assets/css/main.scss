@@ -15,6 +15,82 @@ search: false
 }
 // =================================
 
+// ========= 自定义光标样式 =========
+// 默认光标（正常选择）
+body {
+  cursor: url('/assets/images/cursors/选择.png') 16 16, auto;
+}
+
+// 链接 / 按钮（指针）
+a, button, input[type="submit"], .btn, [role="button"] {
+  cursor: url('/assets/images/cursors/链接选择.png') 16 16, pointer;
+}
+
+// 文本选择（I 形光束）
+p, li, td, th, pre, code,
+textarea, input[type="text"], input[type="search"],
+.page__content, .page__inner-wrap {
+  cursor: url('/assets/images/cursors/文本选择.png') 16 16, text;
+}
+
+// 帮助
+[title], .help, .fa-question-circle {
+  cursor: url('/assets/images/cursors/帮助.png') 16 16, help;
+}
+
+// 移动
+[draggable="true"], .draggable, .sortable {
+  cursor: url('/assets/images/cursors/移动.png') 16 16, move;
+}
+
+// 精确定位（十字准心）
+.canvas, .drawing-area, .map, .chart {
+  cursor: url('/assets/images/cursors/精确定位.png') 16 16, crosshair;
+}
+
+// 忙（加载中，沙漏）
+body.loading, .loading, [aria-busy="true"] {
+  cursor: url('/assets/images/cursors/忙.png') 16 16, wait;
+}
+
+// 后台运行（工作中，指针+沙漏/箭头）
+body.busy, .busy, [aria-busy="true"] {
+  cursor: url('/assets/images/cursors/后台运行.png') 16 16, progress;
+}
+
+// 不可用（禁止）
+.disabled, [disabled], .not-allowed, [aria-disabled="true"] {
+  cursor: url('/assets/images/cursors/不可用.png') 16 16, not-allowed;
+}
+
+// 水平调整大小（左右箭头）
+.resize-h, .ui-resizable-e, .ui-resizable-w,
+[data-direction="horizontal"] {
+  cursor: url('/assets/images/cursors/调整-水平.png') 16 16, ew-resize;
+}
+
+// 垂直调整大小（上下箭头）
+.resize-v, .ui-resizable-n, .ui-resizable-s,
+[data-direction="vertical"] {
+  cursor: url('/assets/images/cursors/调整-垂直.png') 16 16, ns-resize;
+}
+
+// 对角调整大小（左上-右下）
+.resize-se, .ui-resizable-se, .ui-resizable-nw {
+  cursor: url('/assets/images/cursors/调整-对角1.png') 16 16, nwse-resize;
+}
+
+// 对角调整大小（右上-左下）
+.resize-sw, .ui-resizable-sw, .ui-resizable-ne {
+  cursor: url('/assets/images/cursors/调整-对角2.png') 16 16, nesw-resize;
+}
+
+// 手写笔（I 形光束变体）
+.signature, .handwriting, .ink, [data-mode="handwriting"] {
+  cursor: url('/assets/images/cursors/手写笔.png') 16 16, text;
+}
+// ==========================================
+
 // 正文字体全局使用思源宋体（覆盖全站所有元素）
 *,
 *::before,
