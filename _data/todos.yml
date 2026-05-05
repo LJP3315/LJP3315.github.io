@@ -1,15 +1,15 @@
 - name: "蓝桥杯比赛"
-  date: 2026-06-15
+  date: 2026-04-11
   icon: "🏆"
 
-- name: "GameJam 活动"
-  date: 2026-08-01
-  icon: "🎮"
+- name: "团体程序设计天梯赛"
+  date: 2026-04-18
+  icon: "🏆"
 
-- name: "2026 天梯赛"
-  date: 2026-11-20
-  icon: "🏅"
-
-- name: "学期末考试"
-  date: 2027-01-10
+- name: "Linux 考试"
+  date: 2026-05-12
   icon: "📚"
+
+- name: "Python 检查代码"
+  date: 2026-05-14
+  icon: "➕"
