@@ -257,3 +257,138 @@ pre code {
     border-radius: 4px;
   }
 }
+
+// ========= 右侧悬浮目录 =========
+.floating-toc {
+  position: fixed;
+  top: 120px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* 切换按钮 */
+.toc-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: #24292e;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: background 0.15s;
+}
+.toc-toggle:hover {
+  background: #f6f8fa;
+}
+.toc-toggle i {
+  font-size: 14px;
+  color: #586069;
+}
+
+/* 目录面板 */
+.toc-panel {
+  display: none;
+  position: absolute;
+  top: 42px;
+  right: 0;
+  width: 260px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  padding: 4px 0;
+}
+.toc-panel.open {
+  display: block;
+}
+
+/* 面板标题 */
+.toc-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #586069;
+  border-bottom: 1px solid #e1e4e8;
+  margin-bottom: 4px;
+}
+.toc-header i {
+  font-size: 13px;
+}
+
+/* 目录列表 */
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px 4px 8px;
+}
+
+.toc-item {
+  list-style: none;
+}
+
+.toc-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  font-size: 13px;
+  color: #586069;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.1s, color 0.1s;
+  line-height: 1.4;
+}
+.toc-link:hover {
+  background: #f6f8fa;
+  color: #24292e;
+}
+.toc-link.active {
+  color: #0366d6;
+  background: #f1f8ff;
+  font-weight: 500;
+}
+
+.toc-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d1d5da;
+  transition: background 0.1s;
+}
+.toc-link.active .toc-dot {
+  background: #0366d6;
+}
+
+.toc-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 移动端适配 */
+@media (max-width: 1024px) {
+  .floating-toc {
+    top: auto;
+    bottom: 24px;
+    right: 16px;
+  }
+  .toc-panel {
+    bottom: 42px;
+    top: auto;
+    max-height: 50vh;
+  }
+}
+// ==========================================

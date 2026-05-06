@@ -1,0 +1,112 @@
+{% if page.toc != false %}
+<nav id="floating-toc" class="floating-toc" aria-label="文章目录">
+  <button id="toc-toggle" class="toc-toggle" aria-label="展开目录">
+    <i class="fas fa-bars"></i>
+    <span>目录</span>
+  </button>
+  <div class="toc-panel" id="toc-panel">
+    <div class="toc-header">
+      <i class="fas fa-stream"></i>
+      <span>{{ page.toc_label | default: "本页目录" }}</span>
+    </div>
+    <ul class="toc-list" id="toc-list"></ul>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toc = document.getElementById('floating-toc');
+  if (!toc) return;
+
+  var toggle = document.getElementById('toc-toggle');
+  var panel = document.getElementById('toc-panel');
+  var list = document.getElementById('toc-list');
+
+  // 收集页面中的所有标题
+  var headings = document.querySelectorAll(
+    '.page__content h1, .page__content h2, .page__content h3, .page__content h4'
+  );
+  if (headings.length < 2) {
+    toc.style.display = 'none';
+    return;
+  }
+
+  // 为标题生成锚点 id（兼容中英文）
+  function slugify(text) {
+    var s = text.trim();
+    // 尝试按英文 slug 规则处理
+    var enSlug = s.toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    if (enSlug.length > 0) return enSlug;
+    // 中文标题：直接返回原文本作为 id（现代浏览器支持）
+    return s;
+  }
+
+  // 确保标题有 id；若已有则跳过
+  headings.forEach(function(h) {
+    if (!h.id) h.id = slugify(h.textContent);
+  });
+
+  // 生成目录 HTML
+  var html = '';
+  headings.forEach(function(h) {
+    var tag = h.tagName.toLowerCase();
+    var pad = '0';
+    if (tag === 'h3') pad = '16px';
+    if (tag === 'h4') pad = '32px';
+    html += '<li class="toc-item toc-' + tag + '" style="padding-left:' + pad + '">';
+    html += '<a href="#' + h.id + '" class="toc-link" data-id="' + h.id + '">';
+    html += '<span class="toc-dot"></span>';
+    html += '<span class="toc-text">' + h.textContent + '</span>';
+    html += '</a></li>';
+  });
+  list.innerHTML = html;
+
+  // 切换面板
+  toggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    panel.classList.toggle('open');
+  });
+
+  // 点击目录项：平滑滚动
+  list.addEventListener('click', function(e) {
+    var link = e.target.closest('.toc-link');
+    if (!link) return;
+    e.preventDefault();
+    var id = link.getAttribute('data-id');
+    var target = document.getElementById(id);
+    if (target) {
+      var top = target.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+    if (window.innerWidth < 1024) panel.classList.remove('open');
+  });
+
+  // 点击页面其它区域关闭面板
+  document.addEventListener('click', function(e) {
+    if (!toc.contains(e.target)) panel.classList.remove('open');
+  });
+
+  // 滚动时高亮当前段落
+  var links = list.querySelectorAll('.toc-link');
+  function updateActive() {
+    var scrollPos = window.pageYOffset + 120;
+    var currentId = '';
+    for (var i = 0; i < headings.length; i++) {
+      if (headings[i].getBoundingClientRect().top + window.pageYOffset <= scrollPos) {
+        currentId = headings[i].id;
+      }
+    }
+    links.forEach(function(l) {
+      l.classList.toggle('active', l.getAttribute('data-id') === currentId);
+    });
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+</script>
+{% endif %}

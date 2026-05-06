@@ -66,6 +66,8 @@ layout: default
       {% include post_pagination.html locale=locale %}
     </div>
 
+    {% include toc-floating.html %}
+
     {% if site.comments.provider and page.comments %}
       {% if jekyll.environment == 'production' %}
         {% include comments.html locale=locale %}
