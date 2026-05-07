@@ -7,5 +7,9 @@ main:
     url: /tags/
   - title: "待办"
     url: /todos/
+  - title: "今日待办"
+    url: /daily/
+  - title: "时间轴"
+    url: /timeline/
   - title: "关于我"
     url: /about/

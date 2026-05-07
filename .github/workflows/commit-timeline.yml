@@ -1,0 +1,46 @@
+name: Update Commit Timeline Data
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch commit data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/${{ github.repository }}/commits \
+            --paginate \
+            --jq '.[] | {
+              sha: .sha[0:7],
+              message: (.commit.message | split("\n")[0]),
+              date: .commit.author.date,
+              url: .html_url
+            }' \
+            -X GET -F per_page=100 \
+            > _data/commits.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _data/commits.json
+          if git diff --cached --quiet; then
+            echo "No changes, skipping commit."
+          else
+            git commit -m "docs: update commit timeline data"
+            git push
+          fi
