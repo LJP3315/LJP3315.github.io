@@ -12,72 +12,73 @@ permalink: /timeline/
 
   .timeline-desc {
     color: #6a737d;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     font-size: 0.9em;
   }
 
-  /* 日期分组 */
-  .timeline-date-group {
-    margin-bottom: 28px;
-  }
-
-  .timeline-date-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 4px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .timeline-date-header:hover .timeline-date-text {
+  /* 年份标题 */
+  .timeline-year {
+    font-size: 1.3em;
+    font-weight: 700;
     color: #24292e;
+    margin: 32px 0 6px 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e1e4e8;
   }
 
-  .timeline-date-text {
+  .timeline-year:first-child {
+    margin-top: 0;
+  }
+
+  /* 月份分组 */
+  .timeline-month-group {
+    margin-bottom: 24px;
+  }
+
+  .timeline-month-header {
     font-size: 0.88em;
     font-weight: 600;
     color: #586069;
-    transition: color 0.15s;
-    letter-spacing: 0.01em;
+    padding: 0 4px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .timeline-date-count {
-    font-size: 0.75em;
-    color: #959da5;
-    background: #f6f8fa;
-    padding: 2px 8px;
-    border-radius: 10px;
+  .timeline-month-header:hover {
+    color: #24292e;
   }
 
-  .timeline-date-toggle {
+  .timeline-month-toggle {
     font-size: 0.7em;
     color: #959da5;
     transition: transform 0.2s ease;
     display: inline-block;
   }
 
-  .timeline-date-group.collapsed .timeline-date-toggle {
+  .timeline-month-group.collapsed .timeline-month-toggle {
     transform: rotate(-90deg);
   }
 
   /* 时间轴容器 */
   .timeline-list {
     position: relative;
-    padding-left: 28px;
+    padding-left: 24px;
     margin-left: 6px;
     border-left: 2px solid #e1e4e8;
   }
 
-  .timeline-date-group.collapsed .timeline-list {
+  .timeline-month-group.collapsed .timeline-list {
     display: none;
   }
 
-  /* 单条提交 */
+  /* 单条文章 */
   .timeline-item {
     position: relative;
-    padding: 0 0 16px 24px;
+    padding: 0 0 20px 20px;
   }
 
   .timeline-item:last-child {
@@ -86,7 +87,7 @@ permalink: /timeline/
 
   .timeline-dot {
     position: absolute;
-    left: -33px;
+    left: -29px;
     top: 6px;
     width: 10px;
     height: 10px;
@@ -107,16 +108,14 @@ permalink: /timeline/
   }
 
   .timeline-card {
-    display: flex;
-    align-items: flex-start;
-    padding: 10px 14px;
+    display: block;
+    padding: 12px 16px;
     border-radius: 8px;
     background: #ffffff;
     border: 1px solid #e1e4e8;
     transition: box-shadow 0.15s, border-color 0.15s;
     text-decoration: none;
     color: inherit;
-    gap: 12px;
   }
 
   .timeline-card:hover {
@@ -124,69 +123,71 @@ permalink: /timeline/
     border-color: #d1d5da;
   }
 
-  .timeline-sha {
-    flex-shrink: 0;
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-    font-size: 0.78em;
+  .timeline-card-title {
+    font-size: 0.95em;
+    font-weight: 500;
     color: #0366d6;
-    background: #f1f8ff;
-    padding: 2px 6px;
-    border-radius: 4px;
-    min-width: 52px;
-    text-align: center;
-  }
-
-  .timeline-body {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .timeline-msg {
-    font-size: 0.92em;
-    color: #24292e;
+    margin: 0 0 6px 0;
     line-height: 1.45;
-    margin: 0 0 2px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
-  .timeline-meta {
+  .timeline-card:hover .timeline-card-title {
+    color: #005cc5;
+  }
+
+  .timeline-card-excerpt {
+    font-size: 0.85em;
+    color: #6a737d;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .timeline-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .timeline-card-date {
     font-size: 0.78em;
     color: #959da5;
   }
 
-  /* 加载更多 */
-  .timeline-more {
-    text-align: center;
-    margin-top: 24px;
-  }
-
-  .timeline-more-btn {
-    display: inline-block;
-    padding: 8px 24px;
-    font-size: 0.88em;
+  .timeline-card-tag {
+    font-size: 0.72em;
     color: #0366d6;
     background: #f1f8ff;
-    border: 1px solid #c8e1ff;
-    border-radius: 6px;
-    cursor: pointer;
+    padding: 1px 8px;
+    border-radius: 10px;
+    text-decoration: none;
     transition: background 0.15s;
   }
 
-  .timeline-more-btn:hover {
+  .timeline-card-tag:hover {
     background: #ddeeff;
   }
 
-  .timeline-more-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  .timeline-card-cat {
+    font-size: 0.72em;
+    color: #57606a;
+    background: #f6f8fa;
+    padding: 1px 8px;
+    border-radius: 10px;
   }
 
-  .timeline-more-info {
-    font-size: 0.78em;
+  /* 统计信息 */
+  .timeline-stats {
+    text-align: center;
     color: #959da5;
-    margin-top: 6px;
+    font-size: 0.82em;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e1e4e8;
   }
 
   /* 空状态 */
@@ -206,33 +207,27 @@ permalink: /timeline/
     line-height: 1.6;
   }
 
-  .timeline-empty-hint {
-    font-size: 0.82em;
-    color: #b1bac4;
-    margin-top: 8px;
-  }
-
   /* 响应式 */
   @media (max-width: 480px) {
     .timeline-list {
-      padding-left: 22px;
+      padding-left: 20px;
       margin-left: 4px;
     }
     .timeline-item {
-      padding-left: 18px;
+      padding-left: 16px;
     }
     .timeline-dot {
-      left: -29px;
+      left: -25px;
     }
-    .timeline-sha {
-      display: none;
+    .timeline-card-excerpt {
+      -webkit-line-clamp: 1;
     }
   }
 </style>
 
 <div class="timeline-wrapper">
   <p class="timeline-desc">
-    最近提交记录 &middot; 数据由 GitHub Actions 自动更新
+    所有博客文章按时间排列，点击可跳转阅读
   </p>
 
   <div id="timeline-container"></div>
@@ -240,154 +235,143 @@ permalink: /timeline/
 
 <script>
 (function () {
-  // ==================== 数据注入 ====================
-  var commits = {{ site.data.commits | jsonify }};
+  // ==================== 数据注入（Jekyll 构建时生成） ====================
+  var posts = [
+    {% for post in site.posts %}
+      {
+        title: {{ post.title | jsonify }},
+        url: {{ post.url | jsonify }},
+        date: "{{ post.date | date: '%Y-%m-%d' }}",
+        excerpt: {{ post.excerpt | strip_html | strip | jsonify }},
+        categories: [
+          {% for cat in post.categories %}
+            {{ cat | jsonify }}{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ],
+        tags: [
+          {% for tag in post.tags %}
+            {{ tag | jsonify }}{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
 
   // ==================== 配置 ====================
-  var INITIAL_SHOW = 7;     // 首次显示条数
-  var LOAD_MORE = 10;       // 每次加载更多条数
+  var MONTHS = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
   var WEEKDAYS = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 
-  // ==================== 状态 ====================
-  var shownCount = 0;
-
   // ==================== 工具函数 ====================
-  function formatDateKey(dateStr) {
-    return dateStr.substring(0, 10); // "2026-05-07"
-  }
-
-  function formatDateLabel(dateKey) {
-    var parts = dateKey.split("-");
-    return parseInt(parts[1]) + " 月 " + parseInt(parts[2]) + " 日";
-  }
-
-  function getWeekday(dateStr) {
-    var d = new Date(dateStr);
-    return WEEKDAYS[d.getDay()];
-  }
-
-  function formatTime(dateStr) {
-    var d = new Date(dateStr);
-    var h = String(d.getHours()).padStart(2, "0");
-    var m = String(d.getMinutes()).padStart(2, "0");
-    return h + ":" + m;
-  }
-
-  function isToday(dateKey) {
-    var now = new Date();
-    var y = String(now.getFullYear());
-    var mo = String(now.getMonth() + 1).padStart(2, "0");
-    var d = String(now.getDate()).padStart(2, "0");
-    return dateKey === y + "-" + mo + "-" + d;
-  }
-
-  // ==================== 按日期分组 ====================
-  function groupByDate(items) {
-    var groups = [];
-    var map = {};
-    items.forEach(function (c) {
-      var dk = formatDateKey(c.date);
-      if (!map[dk]) {
-        var g = { dateKey: dk, label: formatDateLabel(dk), weekday: getWeekday(c.date), items: [] };
-        map[dk] = g;
-        groups.push(g);
-      }
-      map[dk].items.push(c);
-    });
-    return groups;
-  }
-
-  // ==================== 渲染 ====================
-  function renderTimeline(append) {
-    var container = document.getElementById("timeline-container");
-    var sliceEnd = Math.min(shownCount, commits.length);
-    var visible = commits.slice(0, sliceEnd);
-
-    if (visible.length === 0) {
-      container.innerHTML =
-        '<div class="timeline-empty">' +
-        '  <div class="timeline-empty-icon">&#128197;</div>' +
-        '  <div class="timeline-empty-text">暂无提交记录</div>' +
-        '  <div class="timeline-empty-hint">推送代码后 GitHub Actions 会自动更新数据</div>' +
-        '</div>';
-      return;
-    }
-
-    var groups = groupByDate(visible);
-    var html = "";
-
-    groups.forEach(function (g, gi) {
-      var todayTag = isToday(g.dateKey) ? "（今天）" : "";
-      var collapsed = (gi > 0) ? " collapsed" : ""; // 第一组默认展开，其余折叠
-
-      html += '<div class="timeline-date-group' + collapsed + '">';
-      html += '  <div class="timeline-date-header" data-group="' + gi + '">';
-      html += '    <span class="timeline-date-text">' + g.label + " " + g.weekday + todayTag + '</span>';
-      html += '    <span>';
-      html += '      <span class="timeline-date-count">' + g.items.length + ' 条</span>';
-      html += '      <span class="timeline-date-toggle">&#9660;</span>';
-      html += '    </span>';
-      html += '  </div>';
-      html += '  <div class="timeline-list">';
-
-      g.items.forEach(function (c) {
-        html += '<div class="timeline-item">';
-        html += '  <span class="timeline-dot"></span>';
-        html += '  <a class="timeline-card" href="' + c.url + '" target="_blank" rel="noopener">';
-        html += '    <span class="timeline-sha">' + c.sha + '</span>';
-        html += '    <div class="timeline-body">';
-        html += '      <p class="timeline-msg">' + escapeHtml(c.message) + '</p>';
-        html += '      <span class="timeline-meta">' + formatTime(c.date) + '</span>';
-        html += '    </div>';
-        html += '  </a>';
-        html += '</div>';
-      });
-
-      html += '  </div>';
-      html += '</div>';
-    });
-
-    // 加载更多按钮
-    if (shownCount < commits.length) {
-      var remaining = commits.length - shownCount;
-      var loadCount = Math.min(LOAD_MORE, remaining);
-      html += '<div class="timeline-more">';
-      html += '  <button class="timeline-more-btn" id="btn-load-more">加载更多</button>';
-      html += '  <div class="timeline-more-info">还有 ' + remaining + ' 条记录</div>';
-      html += '</div>';
-    } else if (commits.length > INITIAL_SHOW) {
-      html += '<div class="timeline-more">';
-      html += '  <div class="timeline-more-info">已显示全部 ' + commits.length + ' 条记录</div>';
-      html += '</div>';
-    }
-
-    container.innerHTML = html;
-
-    // 绑定日期组折叠
-    container.querySelectorAll(".timeline-date-header").forEach(function (header) {
-      header.addEventListener("click", function () {
-        this.parentElement.classList.toggle("collapsed");
-      });
-    });
-
-    // 绑定加载更多
-    var loadBtn = document.getElementById("btn-load-more");
-    if (loadBtn) {
-      loadBtn.addEventListener("click", function () {
-        shownCount += LOAD_MORE;
-        renderTimeline(true);
-      });
-    }
-  }
-
   function escapeHtml(str) {
     var div = document.createElement("div");
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
   }
 
+  function getWeekday(dateStr) {
+    var d = new Date(dateStr + "T00:00:00");
+    return WEEKDAYS[d.getDay()];
+  }
+
+  // ==================== 按年-月分组 ====================
+  function groupByMonth(items) {
+    var yearMap = {};
+    items.forEach(function (p) {
+      var parts = p.date.split("-");
+      var year = parts[0];
+      var month = parseInt(parts[1]);
+      var key = year + "-" + month;
+      if (!yearMap[year]) yearMap[year] = {};
+      if (!yearMap[year][key]) {
+        yearMap[year][key] = { year: year, month: month, label: MONTHS[month - 1], items: [] };
+      }
+      yearMap[year][key].items.push(p);
+    });
+    // 转为数组，按年倒序，月倒序
+    var years = Object.keys(yearMap).sort(function (a, b) { return b - a; });
+    var result = [];
+    years.forEach(function (y) {
+      var months = Object.values(yearMap[y]).sort(function (a, b) { return b.month - a.month; });
+      result.push({ year: y, months: months });
+    });
+    return result;
+  }
+
+  // ==================== 渲染 ====================
+  function render() {
+    var container = document.getElementById("timeline-container");
+
+    if (posts.length === 0) {
+      container.innerHTML =
+        '<div class="timeline-empty">' +
+        '  <div class="timeline-empty-icon">&#128221;</div>' +
+        '  <div class="timeline-empty-text">还没有文章</div>' +
+        '</div>';
+      return;
+    }
+
+    var groups = groupByMonth(posts);
+    var html = "";
+
+    groups.forEach(function (yg, yi) {
+      // 年份标题
+      html += '<div class="timeline-year">' + yg.year + '</div>';
+
+      yg.months.forEach(function (mg, mi) {
+        var collapsed = (yi === 0 && mi === 0) ? "" : " collapsed";
+
+        html += '<div class="timeline-month-group' + collapsed + '">';
+        html += '  <div class="timeline-month-header" data-group="' + yi + "-" + mi + '">';
+        html += '    <span>' + mg.label + ' (' + mg.items.length + ' 篇)</span>';
+        html += '    <span class="timeline-month-toggle">&#9660;</span>';
+        html += '  </div>';
+        html += '  <div class="timeline-list">';
+
+        mg.items.forEach(function (p) {
+          var weekday = getWeekday(p.date);
+          var dateParts = p.date.split("-");
+          var dateLabel = parseInt(dateParts[1]) + " 月 " + parseInt(dateParts[2]) + " 日 " + weekday;
+
+          // 标签
+          var metaHtml = '<span class="timeline-card-date">' + dateLabel + '</span>';
+          if (p.categories.length > 0) {
+            metaHtml += '<span class="timeline-card-cat">' + escapeHtml(p.categories[0]) + '</span>';
+          }
+          p.tags.forEach(function (t) {
+            metaHtml += '<span class="timeline-card-tag">' + escapeHtml(t) + '</span>';
+          });
+
+          html += '<div class="timeline-item">';
+          html += '  <span class="timeline-dot"></span>';
+          html += '  <a class="timeline-card" href="' + p.url + '">';
+          html += '    <p class="timeline-card-title">' + escapeHtml(p.title) + '</p>';
+          if (p.excerpt) {
+            html += '    <p class="timeline-card-excerpt">' + escapeHtml(p.excerpt) + '</p>';
+          }
+          html += '    <div class="timeline-card-meta">' + metaHtml + '</div>';
+          html += '  </a>';
+          html += '</div>';
+        });
+
+        html += '  </div>';
+        html += '</div>';
+      });
+    });
+
+    // 统计
+    html += '<div class="timeline-stats">共 ' + posts.length + ' 篇文章</div>';
+
+    container.innerHTML = html;
+
+    // 绑定月份折叠
+    container.querySelectorAll(".timeline-month-header").forEach(function (header) {
+      header.addEventListener("click", function () {
+        this.parentElement.classList.toggle("collapsed");
+      });
+    });
+  }
+
   // ==================== 初始化 ====================
-  shownCount = INITIAL_SHOW;
-  renderTimeline(false);
+  render();
 })();
 </script>
