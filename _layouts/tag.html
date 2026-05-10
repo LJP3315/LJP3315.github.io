@@ -1,11 +1,6 @@
 ---
 layout: archive
-pagination:
-  enabled: true
-  per_page: 5
-  collection: posts
 ---
-
 {% assign locale = page.locale | default: layout.locale | default: site.locale %}
 
 {{ content }}
@@ -15,4 +10,4 @@ pagination:
   {% include posts-tag.html locale=locale taxonomy=page.taxonomy type=entries_layout %}
 </div>
 
-{% include paginator.html locale=locale %}
+{# Pagination disabled: GitHub Pages does not support jekyll-paginate-v2 #}
