@@ -166,9 +166,10 @@ pre {
 
 hr {
   display: block;
-  margin: 1em 0;
+  margin: 2em 0;
   border: 0;
-  border-top: 1px solid $border-color;
+  height: 2px;
+  background: linear-gradient(to right, $border-color, $primary-color, $border-color);
 }
 
 /* lists */

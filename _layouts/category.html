@@ -1,7 +1,12 @@
 ---
 layout: archive
+pagination:
+  enabled: true
+  per_page: 5
+  collection: posts
 ---
-{%- assign locale = page.locale | default: layout.locale | default: site.locale %}
+
+{% assign locale = page.locale | default: layout.locale | default: site.locale %}
 
 {{ content }}
 
@@ -9,3 +14,5 @@ layout: archive
 <div class="entries-{{ entries_layout }}">
   {% include posts-category.html locale=locale taxonomy=page.taxonomy type=entries_layout %}
 </div>
+
+{% include paginator.html locale=locale %}
