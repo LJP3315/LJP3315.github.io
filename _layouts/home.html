@@ -5,17 +5,7 @@ layout: archive
 
 {{ content }}
 
-<h3 class="archive__subtitle">{{ site.data.ui-text[locale].recent_posts | default: "Recent Posts" }}</h3>
-
-{% if paginator %}
-  {% assign posts = paginator.posts %}
-{% else %}
-  {% assign posts = site.posts %}
-{% endif %}
-
-{% assign entries_layout = page.entries_layout | default: 'list' %}
-<div class="entries-{{ entries_layout }}">
-  {% include documents-collection.html locale=locale entries=posts type=entries_layout %}
+<div class="taxonomy__count">
+  <i class="fas fa-newspaper" aria-hidden="true"></i>
+  共 <strong>{{ site.posts.size }}</strong> 篇文章
 </div>
-
-{% include paginator.html locale=locale %}
