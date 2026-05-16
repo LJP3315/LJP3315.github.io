@@ -393,13 +393,18 @@ pre code {
 }
 
 /* 定义侧边栏收起时的状态 */
-.sidebar-hidden {
+/* sidebar-hidden 加在 #main 上，.sidebar 是其直接子元素 */
+#main.sidebar-hidden {
   .sidebar {
     display: none !important; /* 隐藏侧边栏 */
   }
-  .page__inner-wrapper {
-    max-width: 100% !important; /* 让正文铺满 */
+  /* Minimal Mistakes wide 模式下 article.page 负责内容宽度 */
+  article.page {
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
     padding-left: 0 !important;
+    margin-left: 0 !important;
   }
 }
 
