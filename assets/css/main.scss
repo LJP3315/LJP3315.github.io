@@ -391,4 +391,35 @@ pre code {
     max-height: 50vh;
   }
 }
+
+/* 定义侧边栏收起时的状态 */
+.sidebar-hidden {
+  .sidebar {
+    display: none !important; /* 隐藏侧边栏 */
+  }
+  .page__inner-wrapper {
+    max-width: 100% !important; /* 让正文铺满 */
+    padding-left: 0 !important;
+  }
+}
+
+/* 浮动折叠按钮样式 */
+#toggle-sidebar-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 999;
+  background: #252a34;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #00adb5;
+  }
+}
 // ==========================================

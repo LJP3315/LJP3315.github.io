@@ -27,3 +27,27 @@
     <script src="{{ script | relative_url }}"></script>
   {% endfor %}
 {% endif %}
+<!-- 侧边栏折叠按钮 -->
+<button id="toggle-sidebar-btn" title="显示/隐藏侧边栏">
+  <i class="fas fa-arrows-alt-h"></i>
+</button>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("toggle-sidebar-btn");
+    const initialWrapper = document.querySelector(".page__inner-wrapper");
+    
+    // 如果当前页面本身就没有侧边栏，则隐藏按钮
+    if (!initialWrapper || document.querySelector(".sidebar") === null) {
+      btn.style.display = "none";
+      return;
+    }
+
+    // 点击按钮切换状态
+    btn.addEventListener("click", function() {
+      // 这里的 .page__inner-wrapper 是 Minimal Mistakes 的核心包裹容器
+      const wrapper = document.querySelector(".page__inner-wrapper");
+      wrapper.classList.toggle("sidebar-hidden");
+    });
+  });
+</script>
