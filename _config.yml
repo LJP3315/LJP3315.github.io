@@ -20,17 +20,17 @@ direction                : # "ltr" (default), "rtl" # set the direction of the p
 title                    : 离暗的博客
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
-name                     : "Your Name"
-description              : "An amazing website."
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+name                     : "离暗"
+description              : "离暗的技术博客，专注于学习客户端和记录学习过程"
+url                      : "https://ljp3315.github.io"
+baseurl                  : ""
+repository               : "LJP3315/LJP3315.github.io"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 breadcrumbs              : # true, false (default)
 words_per_minute         : 200
-enable_copy_code_button  : # true, false (default)
+enable_copy_code_button  : true
 copyright                : # "copyright" name, defaults to site.title
 copyright_url            : # "copyright" URL, defaults to site.url
 comments:
@@ -114,16 +114,16 @@ analytics:
 
 # Site Author
 author:
-  name             : 李佳鹏
+  name             : 离暗
   avatar           : /assets/images/avatar.jpg
-  bio              : 软件工程在读 | 游戏客户端 / 算法
+  bio              : 软件工程在读 | 游戏客户端
   location         : China-ChangSha
   email            : 3382353764@qq.com
   # fediverse      : "@you@instance.social"  # used for fediverse:creator meta tag
   links:
     - label: "Email"
       icon: "fas fa-fw fa-square-envelope"
-      # url: "mailto:your.name@email.com"
+      url: "mailto:3382353764@qq.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
@@ -133,9 +133,9 @@ author:
     - label: "Facebook"
       icon: "fab fa-fw fa-square-facebook"
       # url: "https://facebook.com/"
-    - label: GitHub
-      icon: fab fa-github
-      url: https://github.com/LJP3315
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/LJP3315"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
@@ -143,26 +143,10 @@ author:
 # Site Footer
 footer:
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-square-x-twitter"
-      # url:
-      # rel: "me"  # optional: adds rel attribute (e.g. for IndieWeb web sign-in)
-    - label: "Facebook"
-      icon: "fab fa-fw fa-square-facebook"
-      # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
-    - label: "GitLab"
-      icon: "fab fa-fw fa-gitlab"
-      # url:
-    - label: "Bitbucket"
-      icon: "fab fa-fw fa-bitbucket"
-      # url:
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      # url:
-  since: "2013"
+      url: "https://github.com/LJP3315"
+  since: "2026"
 
 
 # Reading Files
@@ -234,7 +218,7 @@ sass:
 
 # Outputting
 permalink: /:categories/:title/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: "Asia/Shanghai"
 
 
 # Pagination with jekyll-paginate
