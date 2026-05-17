@@ -29,27 +29,6 @@
           <i class="fas fa-search"></i>
         </button>
         {% endif %}
-
-        <!-- 亮/暗主题切换按钮 -->
-        <button class="theme-toggle" type="button" aria-label="切换亮/暗主题" title="切换主题">
-          <!-- 月亮图标（亮色模式下显示，点后切暗） -->
-          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
-          </svg>
-          <!-- 太阳图标（暗色模式下显示，点后切亮） -->
-          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">{{ site.data.ui-text[locale].menu_label | default: "Toggle menu" }}</span>
           <div class="navicon"></div>
@@ -61,34 +40,12 @@
 </div>
 
 <script>
+// 导航栏滚动投影
 (function () {
-  // ── 主题初始化（尽早执行，避免闪白）──────────────────────────────────────
-  var stored = localStorage.getItem('theme');
-  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var theme = stored || (prefersDark ? 'dark' : 'light');
-  document.documentElement.setAttribute('data-theme', theme);
-
-  // ── 导航栏滚动投影 ──────────────────────────────────────────────────────
   window.addEventListener('scroll', function () {
-    var masthead = document.querySelector('.masthead');
-    if (!masthead) return;
-    if (window.scrollY > 10) {
-      masthead.classList.add('is-scrolled');
-    } else {
-      masthead.classList.remove('is-scrolled');
-    }
+    var m = document.querySelector('.masthead');
+    if (!m) return;
+    m.classList.toggle('is-scrolled', window.scrollY > 10);
   }, { passive: true });
-
-  // ── 主题切换点击 ───────────────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', function () {
-    var btn = document.querySelector('.theme-toggle');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var current = document.documentElement.getAttribute('data-theme') || 'light';
-      var next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
-  });
 })();
 </script>

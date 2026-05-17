@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SIDEBAR
+   SIDEBAR — Premium Author Card Edition
    ========================================================================== */
 
 /*
@@ -8,30 +8,13 @@
 
 .sidebar {
   @include clearfix();
-  // @include breakpoint(max-width $large) {
-  //   /* fix z-index order of follow links */
-  //   position: relative;
-  //   z-index: 10;
-  //   -webkit-transform: translate3d(0, 0, 0);
-  //   transform: translate3d(0, 0, 0);
-  // }
 
   @include breakpoint($large) {
     float: inline-start;
     width: calc(#{$right-sidebar-width-narrow} - 1em);
-    opacity: 0.75;
-    -webkit-transition: opacity 0.2s ease-in-out;
-    transition: opacity 0.2s ease-in-out;
-
-    &:hover {
-      opacity: 1;
-    }
 
     &.sticky {
       overflow-y: auto;
-      /* calculate height of nav list
-         viewport height - nav height - masthead x-padding
-      */
       max-height: calc(100vh - #{$nav-height} - 2em);
     }
   }
@@ -118,9 +101,27 @@
 }
 
 /*
-   Author profile and links
+   Author profile and links — Premium Card
    ========================================================================== */
 
+// ── 整体卡片容器 ────────────────────────────────────────────────────────────
+.h-card {
+  @include breakpoint($large) {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8em 1.4em 1.4em;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: var(--card-shadow-hover);
+    }
+  }
+}
+
+// ── 头像：渐变光环 ─────────────────────────────────────────────────────────
 .author__avatar {
   display: table-cell;
   vertical-align: top;
@@ -128,22 +129,38 @@
   height: 36px;
 
   @include breakpoint($large) {
-    display: block;
+    display: flex;
+    justify-content: center;
     width: auto;
     height: auto;
+    margin-bottom: 1em;
   }
 
   img {
     max-width: 110px;
     border-radius: 50%;
+    border: 3px solid transparent;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
 
     @include breakpoint($large) {
-      padding: 5px;
-      border: 1px solid $border-color;
+      max-width: 96px;
+      padding: 0;
+      // 天空蓝渐变光环
+      border: 3px solid var(--primary-light);
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
     }
   }
 }
 
+// ── 作者名与 bio ───────────────────────────────────────────────────────────
 .author__content {
   display: table-cell;
   vertical-align: top;
@@ -166,10 +183,23 @@
   margin: 0;
 
   @include breakpoint($large) {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 0.4em;
+    font-size: 1.05em;
+    font-weight: 700;
+    color: var(--text);
+
+    a {
+      color: var(--primary);
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--link-color-hover);
+      }
+    }
   }
 }
+
 .sidebar .author__name {
   font-family: $sans-serif;
   font-size: $type-size-5;
@@ -177,13 +207,28 @@
 
 .author__bio {
   margin: 0;
+  font-size: $type-size-7;
+  color: var(--text-muted);
+  line-height: 1.6;
 
   @include breakpoint($large) {
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-top: 0.3em;
+    margin-bottom: 1.2em;
+    font-size: 0.72em;
+    padding: 0 0.3em;
+
+    em {
+      display: block;
+      margin-top: 0.5em;
+      font-style: italic;
+      color: var(--primary);
+      opacity: 0.85;
+      font-size: 0.9em;
+    }
   }
 }
 
+// ── 社交链接区域 ────────────────────────────────────────────────────────────
 .author__urls-wrapper {
   position: relative;
   display: table-cell;
@@ -243,9 +288,9 @@
   margin-top: 15px;
   padding: 10px;
   list-style-type: none;
-  border: 1px solid $border-color;
+  border: 1px solid var(--border);
   border-radius: $border-radius;
-  background: $background-color;
+  background: var(--card-bg);
   box-shadow: 0 2px 4px 0 rgba(#000, 0.16), 0 2px 10px 0 rgba(#000, 0.12);
   cursor: default;
 
@@ -253,14 +298,17 @@
     display: block;
   }
 
+  // ── 桌面端：纵向排列，pill 风格 ───────────────────────────────────────────
   @include breakpoint($large) {
-    display: block;
+    display: flex;
+    flex-direction: column;
     position: relative;
     margin: 0;
     padding: 0;
     border: 0;
     background: transparent;
     box-shadow: none;
+    gap: 4px;
   }
 
   &::before {
@@ -272,7 +320,7 @@
     width: 0;
     border-style: solid;
     border-width: 0 10px 10px;
-    border-color: $border-color transparent;
+    border-color: var(--border) transparent;
     z-index: 0;
 
     @include breakpoint($large) {
@@ -289,7 +337,7 @@
     width: 0;
     border-style: solid;
     border-width: 0 10px 10px;
-    border-color: $background-color transparent;
+    border-color: var(--card-bg) transparent;
     z-index: 1;
 
     @include breakpoint($large) {
@@ -306,17 +354,49 @@
     white-space: nowrap;
   }
 
+  // ── 链接项 pill 化 ───────────────────────────────────────────────────────
   a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
     margin-bottom: 5px;
-    padding-block: 2px;
-    padding-inline-end: 5px;
-    color: inherit;
-    font-size: $type-size-5;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: $type-size-6;
     text-decoration: none;
+    transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+
+    i,
+    svg {
+      width: 1em;
+      text-align: center;
+      font-size: 1em;
+      flex-shrink: 0;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    span.label {
+      font-size: 0.92em;
+    }
 
     &:hover {
-      text-decoration: underline;
+      color: var(--primary);
+      background: var(--primary-fill);
+      text-decoration: none;
+      transform: translateX(3px);
+
+      i,
+      svg {
+        color: var(--primary);
+        transform: scale(1.15);
+      }
+    }
+
+    @include breakpoint($large) {
+      margin-bottom: 2px;
+      padding: 7px 14px;
+      font-size: 0.88em;
     }
   }
 }

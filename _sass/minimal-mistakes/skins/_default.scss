@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Default skin — Sky Blue × Morandi Premium Edition
+   Default skin — Sky Blue Premium Edition
    ========================================================================== */
 
 // ── 覆盖主色调：天空蓝 ──────────────────────────────────────────────────────
@@ -13,7 +13,7 @@ $masthead-link-color-hover: mix(#000, $primary-color, 25%) !default;
 // ── 圆角提升 ────────────────────────────────────────────────────────────────
 $border-radius: 12px !default;
 
-// ── CSS 自定义属性：亮色模式（默认）─────────────────────────────────────────
+// ── CSS 自定义属性 ───────────────────────────────────────────────────────────
 :root {
   --bg:             #ffffff;
   --surface:        #f4f8fd;
@@ -34,71 +34,8 @@ $border-radius: 12px !default;
   --tag-text:       #1e5fa6;
 }
 
-// ── CSS 自定义属性：暗色模式 ─────────────────────────────────────────────────
-[data-theme="dark"] {
-  --bg:             #0f172a;
-  --surface:        #1e293b;
-  --surface-hover:  #263548;
-  --border:         #2d4a6a;
-  --text:           #e2eaf4;
-  --text-muted:     #7fa8cc;
-  --primary:        #60A5FA;
-  --primary-light:  #93C5FD;
-  --primary-fill:   rgba(96, 165, 250, 0.12);
-  --accent:         #60A5FA;
-  --card-bg:        #1e293b;
-  --card-shadow:    0 2px 12px rgba(0, 0, 0, 0.35);
-  --card-shadow-hover: 0 8px 30px rgba(96, 165, 250, 0.20);
-  --masthead-bg:    rgba(15, 23, 42, 0.88);
-  --masthead-border: rgba(96, 165, 250, 0.18);
-  --tag-bg:         rgba(96, 165, 250, 0.15);
-  --tag-text:       #93C5FD;
-
-  // 覆盖 Minimal Mistakes 的 SCSS 颜色变量（暗模式下作用域内生效）
-  background-color: var(--bg);
-  color: var(--text);
-}
-
-// ── 全局：让页面跟随主题切换 ──────────────────────────────────────────────────
+// ── 全局基础 ─────────────────────────────────────────────────────────────────
 body {
   background-color: var(--bg);
   color: var(--text);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-// ── 主题切换按钮样式 ──────────────────────────────────────────────────────────
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 50%;
-  color: var(--primary);
-  transition: background 0.2s ease, transform 0.2s ease;
-  margin-inline-start: 0.5em;
-  flex-shrink: 0;
-
-  &:hover {
-    background: var(--primary-fill);
-    transform: rotate(20deg) scale(1.1);
-  }
-
-  svg {
-    width: 1.1rem;
-    height: 1.1rem;
-    fill: currentColor;
-    transition: opacity 0.2s ease;
-  }
-
-  .icon-sun  { display: none; }
-  .icon-moon { display: block; }
-}
-
-[data-theme="dark"] .theme-toggle {
-  .icon-sun  { display: block; }
-  .icon-moon { display: none; }
 }
