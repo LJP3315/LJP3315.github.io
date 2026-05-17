@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ARCHIVE
+   ARCHIVE — Floating Card Edition
    ========================================================================== */
 
 .archive {
@@ -35,8 +35,8 @@
   margin: 1.414em 0 0.5em;
   padding-bottom: 0.5em;
   font-size: $type-size-5;
-  color: $muted-text-color;
-  border-bottom: 1px solid $border-color;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
 
   + .list__item .archive__item-title {
     margin-top: 0.5em;
@@ -49,11 +49,14 @@
   line-height: initial;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--text);
+  transition: color 0.2s ease;
 
   a[rel="permalink"]::before {
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: 14px;  // 覆盖整个卡片的点击区域
   }
 
   a + a {
@@ -72,6 +75,7 @@
 .archive__item-excerpt {
   margin-top: 0;
   font-size: $type-size-6;
+  color: var(--text-muted);
 
   & + p {
     text-indent: 0;
@@ -79,12 +83,13 @@
 
   a {
     position: relative;
+    color: var(--primary);
   }
 }
 
 .archive__item-teaser {
   position: relative;
-  border-radius: $border-radius;
+  border-radius: 10px;
   overflow: hidden;
 
   img {
@@ -118,13 +123,71 @@
 }
 
 /*
-   List view
+   List view — Floating Card
    ========================================================================== */
 
 .list__item {
+  // 卡片基础结构
+  background: var(--card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  padding: 1.1em 1.3em 1.1em 1.5em;
+  margin-bottom: 1.2em;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease;
+
+  // 左侧天空蓝色标条
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: 4px 0 0 4px;
+    opacity: 0.85;
+    transition: opacity 0.25s ease;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--primary-light);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .archive__item-title {
+      color: var(--primary);
+    }
+  }
+
   .page__meta {
-    margin: 0 0 4px;
-    font-size: 0.6em;
+    margin: 0 0 6px;
+    font-size: 0.62em;
+    color: var(--text-muted);
+  }
+
+  // 标签样式（若存在）
+  .page__taxonomy-item {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 6px;
+    padding: 1px 7px;
+    font-size: 0.68em;
+    font-weight: 500;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: var(--primary-fill);
+    }
   }
 }
 
@@ -148,6 +211,19 @@
 
 .grid__item {
   margin-bottom: 2em;
+  background: var(--card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+  }
 
   @include breakpoint($small) {
     float: inline-start;
@@ -195,6 +271,8 @@
   .page__meta {
     margin: 0 0 4px;
     font-size: 0.6em;
+    color: var(--text-muted);
+    padding: 0 0.75em;
   }
 
   .page__meta-sep {
@@ -208,10 +286,15 @@
   .archive__item-title {
     margin-top: 0.5em;
     font-size: $type-size-5;
+    padding: 0 0.75em;
+    color: var(--text);
+    transition: color 0.2s ease;
   }
 
   .archive__item-excerpt {
     display: none;
+    padding: 0 0.75em 0.75em;
+    color: var(--text-muted);
 
     @include breakpoint($medium) {
       display: block;
@@ -220,6 +303,8 @@
   }
 
   .archive__item-teaser {
+    border-radius: 0;   // 卡片顶部图片不需要额外圆角（卡片本身已有 overflow:hidden）
+
     @include breakpoint($small) {
       max-height: 200px;
     }
@@ -237,7 +322,7 @@
 .feature__wrapper {
   @include clearfix();
   margin-bottom: 2em;
-  border-bottom: 1px solid $border-color;
+  border-bottom: 1px solid var(--border);
 
   .archive__item-title {
     margin-bottom: 0;
@@ -425,7 +510,7 @@
 /* Place inside a single layout */
 
 .layout--single {
-	.feature__wrapper {
-		display: inline-block;
-	}
+  .feature__wrapper {
+    display: inline-block;
+  }
 }

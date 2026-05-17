@@ -1,27 +1,35 @@
 /* ==========================================================================
-   MASTHEAD
+   MASTHEAD — Glass Morphism Edition
    ========================================================================== */
 
 .masthead {
-  position: relative;
-  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid var(--masthead-border);
+  background: var(--masthead-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   -webkit-animation: $intro-transition;
   animation: $intro-transition;
   -webkit-animation-delay: 0.15s;
   animation-delay: 0.15s;
-  z-index: 20;
+  z-index: 100;
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+  // 滚动后增强投影（由 JS 添加 .is-scrolled class）
+  &.is-scrolled {
+    box-shadow: 0 4px 24px rgba(74, 144, 217, 0.10);
+    border-bottom-color: var(--primary-light);
+  }
 
   &__inner-wrap {
     @include clearfix;
     margin-inline: auto;
-    padding: 1em;
+    padding: 0.6em 1em;
     max-width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
     justify-content: space-between;
+    align-items: center;
     font-family: $sans-serif-narrow;
 
     @include breakpoint($x-large) {
@@ -43,18 +51,24 @@
 }
 
 .site-title {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-item-align: center;
   align-self: center;
-  font-weight: bold;
-  // z-index: 20;
+  font-weight: 700;
+  font-size: 1.05em;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--primary);
+  }
 }
 
 .site-subtitle {
   display: block;
   font-size: $type-size-8;
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 .masthead__menu {
@@ -87,5 +101,31 @@
   &--lg {
     padding-inline-end: 2em;
     font-weight: 700;
+  }
+
+  a {
+    color: var(--text);
+    font-weight: 500;
+    padding: 0.3em 0.6em;
+    border-radius: 8px;
+    transition: color 0.2s ease, background 0.2s ease;
+
+    &:hover {
+      color: var(--primary);
+      background: var(--primary-fill);
+    }
+  }
+}
+
+// ── 搜索 & 汉堡菜单按钮统一样式 ───────────────────────────────────────────────
+.search__toggle,
+.greedy-nav__toggle {
+  color: var(--text-muted);
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    color: var(--primary);
+    background: var(--primary-fill);
   }
 }
