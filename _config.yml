@@ -121,12 +121,12 @@ author:
 
     <em>“不要去追求一时的激情，去建立恒常的秩序，知行合一”</em>
   location         : China-ChangSha
-  email            : 3382353764@qq.com
+  # email            : 3382353764@qq.com
   # fediverse      : "@you@instance.social"  # used for fediverse:creator meta tag
   links:
-    # - label: "Email"
-    #   icon: "fas fa-fw fa-square-envelope"
-    #   url: "mailto:3382353764@qq.com"
+    - label: "Email"
+      icon: "fas fa-fw fa-square-envelope"
+      url: "mailto:3382353764@qq.com"
     # - label: "Website"
     #   icon: "fas fa-fw fa-link"
     #   # url: "https://your-website.com"
