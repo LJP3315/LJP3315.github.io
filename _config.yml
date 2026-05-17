@@ -136,12 +136,15 @@ author:
     # - label: "Facebook"
     #   icon: "fab fa-fw fa-square-facebook"
     #   # url: "https://facebook.com/"
-    # - label: "GitHub"
-    #   icon: "fab fa-fw fa-github"
-    #   url: "https://github.com/LJP3315"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/LJP3315"
     # - label: "Instagram"
     #   icon: "fab fa-fw fa-instagram"
     #   # url: "https://instagram.com/"
+    - label: "Bilibili"
+      icon: "fas fa-fw fa-tv"
+      url: "https://space.bilibili.com/470538069"
 
 # Site Footer
 footer:
