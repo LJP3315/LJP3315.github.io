@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed -i 's/categories: 学习记录/categories: 技术/' *.md)",
+      "Bash(sed -i 's/categories: \\\\[学习记录\\\\]/categories: 技术/' *.md)",
+      "Bash(sed -i 's/categories: 博客记录/categories: 博客/' *.md)",
+      "Bash(sed -i 's/categories: \\\\[博客记录\\\\]/categories: 博客/' *.md)",
+      "Bash(sed -i 's/categories: \\\\[规划\\\\]/categories: 生活/' *.md)"
+    ]
+  }
+}

@@ -11,7 +11,11 @@
     {% for item in include.taxonomies %}
       {% if item[1].size == i %}
         <li>
-          <a href="#{{ item[0] | slugify }}">
+          {% if include.archive_path %}
+            <a href="{{ item[0] | slugify | prepend: include.archive_path | append: '/' | relative_url }}">
+          {% else %}
+            <a href="#{{ item[0] | slugify }}">
+          {% endif %}
             <strong>{{ item[0] }}</strong> <span class="taxonomy__count">{{ i }}</span>
           </a>
         </li>

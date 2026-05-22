@@ -1,7 +1,7 @@
 ---
 title: "application与session登录操作"
 date: 2026-05-07
-categories: 学习记录
+categories: 技术
 tags: JavaEE
 ---
 
