@@ -7,7 +7,8 @@
       "Bash(sed -i 's/categories: \\\\[博客记录\\\\]/categories: 博客/' *.md)",
       "Bash(sed -i 's/categories: \\\\[规划\\\\]/categories: 生活/' *.md)",
       "Bash(xargs grep \"^categories:\")",
-      "Bash(sort -t: -k2)"
+      "Bash(sort -t: -k2)",
+      "Bash(git show *)"
     ]
   }
 }
