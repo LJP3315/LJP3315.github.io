@@ -1,7 +1,7 @@
 ---
 title: "jsp forward转发动作标签"
 date: 2026-05-07
-categories: 技术
+categories: tech
 tags: JavaEE
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Python爬虫入门"
 date: 2026-05-18
-categories: 技术
+categories: tech
 tags: Python
 ---
 

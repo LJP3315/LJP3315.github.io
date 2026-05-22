@@ -6,13 +6,24 @@
   {% endif %}
 {% endfor %}
 
+{% if include.taxonomy_type == "categories" %}
+  {% assign cat_names = "tech:技术,blog:博客,life:生活" | split: "," %}
+{% endif %}
+
 <ul class="taxonomy__index">
   {% for i in (1..items_max) reversed %}
     {% for item in include.taxonomies %}
       {% if item[1].size == i %}
+        {% assign display_name = item[0] %}
+        {% if include.taxonomy_type == "categories" %}
+          {% for pair in cat_names %}
+            {% assign kv = pair | split: ":" %}
+            {% if kv[0] == item[0] %}{% assign display_name = kv[1] %}{% endif %}
+          {% endfor %}
+        {% endif %}
         <li>
           <a href="#{{ item[0] | slugify }}">
-            <strong>{{ item[0] }}</strong> <span class="taxonomy__count">{{ i }}</span>
+            <strong>{{ display_name }}</strong> <span class="taxonomy__count">{{ i }}</span>
           </a>
         </li>
       {% endif %}
@@ -24,8 +35,15 @@
 {% for i in (1..items_max) reversed %}
   {% for taxonomy in include.taxonomies %}
     {% if taxonomy[1].size == i %}
+      {% assign display_name = taxonomy[0] %}
+      {% if include.taxonomy_type == "categories" %}
+        {% for pair in cat_names %}
+          {% assign kv = pair | split: ":" %}
+          {% if kv[0] == taxonomy[0] %}{% assign display_name = kv[1] %}{% endif %}
+        {% endfor %}
+      {% endif %}
       <section id="{{ taxonomy[0] | slugify }}" class="taxonomy__section">
-        <h2 class="archive__subtitle">{{ taxonomy[0] }}</h2>
+        <h2 class="archive__subtitle">{{ display_name }}</h2>
         <div class="entries-{{ entries_layout }}">
           {% for post in taxonomy.last %}
             {% include archive-single.html locale=locale type=entries_layout %}

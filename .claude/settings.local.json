@@ -13,7 +13,10 @@
       "Bash(mv \"2026-05-01-分类与标签功能.md\" \"2026-05-01-categories-and-tags.md\")",
       "Bash(mv \"2026-05-03-5月的自我规划.md\" \"2026-05-03-may-plan.md\")",
       "Bash(mv \"2026-05-05-上传博客文章指北.md\" \"2026-05-05-blog-upload-guide.md\")",
-      "Bash(mv \"2026-05-05-java实验2语法知识.md\" \"2026-05-05-java-syntax-basics.md\")"
+      "Bash(mv \"2026-05-05-java实验2语法知识.md\" \"2026-05-05-java-syntax-basics.md\")",
+      "Bash(sed -i 's/categories: 技术/categories: tech/' *.md)",
+      "Bash(sed -i 's/categories: 博客/categories: blog/' *.md)",
+      "Bash(sed -i 's/categories: 生活/categories: life/' *.md)"
     ]
   }
 }

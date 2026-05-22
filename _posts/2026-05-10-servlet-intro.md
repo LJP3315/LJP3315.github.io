@@ -1,7 +1,7 @@
 ---
 title: "Servlet 技术入门"
 date: 2026-05-10
-categories: 技术
+categories: tech
 tags: JavaEE
 ---
 

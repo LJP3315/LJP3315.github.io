@@ -1,7 +1,7 @@
 ---
 title: "第一阶段健身规划"
 date: 2026-05-17
-categories: 生活
+categories: life
 tags: 健身
 ---
 

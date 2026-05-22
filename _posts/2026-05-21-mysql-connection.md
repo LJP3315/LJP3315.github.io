@@ -1,7 +1,7 @@
 ---
 title: "MySQL数据库连接"
 date: 2026-05-21
-categories: 技术
+categories: tech
 tags: JavaEE
 ---
 

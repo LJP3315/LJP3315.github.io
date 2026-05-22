@@ -1,7 +1,7 @@
 ---
 title: "补全博客的分类和标签功能"
 date: 2026-05-01
-categories: 博客
+categories: blog
 tags: [博客框架]
 ---
 

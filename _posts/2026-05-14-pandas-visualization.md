@@ -1,7 +1,7 @@
 ---
 title: "Pandas数据可视化"
 date: 2026-05-14
-categories: 技术
+categories: tech
 tags: Python
 ---
 

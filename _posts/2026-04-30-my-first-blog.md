@@ -1,7 +1,7 @@
 ---
 title: "我的第一篇博客"
 date: 2026-04-30
-categories: 博客
+categories: blog
 tags: [博客框架]
 ---
 

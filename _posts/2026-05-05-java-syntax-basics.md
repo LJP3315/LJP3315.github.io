@@ -1,7 +1,7 @@
 ---
 title: "jsp基础语法相关"
 date: 2026-05-05
-categories: 技术
+categories: tech
 tags: JavaEE
 ---
 
