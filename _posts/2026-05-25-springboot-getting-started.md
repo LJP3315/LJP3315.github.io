@@ -63,7 +63,7 @@ Lombok --自动生成实体的构造器
 
 ### 3. entity 实体类 - 数据模型
 
-#### User.java 用户实体类
+User.java 用户实体类
 
 ```java
 package com.lyon.test.entity;
@@ -91,7 +91,7 @@ public class User {
 
 ### 4.mapper 数据访问层 - 访问数据库
 
-#### UserMapper.java 声明SQL语句
+UserMapper.java 声明SQL语句
 
 ```java
 package com.lyon.test.mapper;
@@ -292,4 +292,10 @@ Spring Boot 的配置文件，用于设置应用程序的基本信息和数据�
 mapper 主要是 通过数据库的操作语句，看需求进行编写
 
 controller 通过 @GetMapping(URL) 与 @PostMapping(URL) 注解在对应的网址执行前端的显示和表单的发送
+
+
+
+[完整代码](https://github.com/LJP3315/JavaEE/tree/main/exp08)
+
+
 
