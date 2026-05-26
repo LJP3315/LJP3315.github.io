@@ -13,3 +13,11 @@
 - name: "Python 检查代码"
   date: 2026-05-14
   icon: "➕"
+
+- name: "JavaEE 考试"
+  date: 2026-06-05
+  icon: "📚"
+
+- name: "计算机组成原理实验报告"
+  date: 2026-06-01
+  icon: "➕"
