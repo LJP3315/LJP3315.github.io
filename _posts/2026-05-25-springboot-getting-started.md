@@ -1,7 +1,7 @@
 ---
 title: "SpringBoot入门"
 date: 2026-05-25
-categories: tech
+categories: school
 tags: JavaEE
 ---
 

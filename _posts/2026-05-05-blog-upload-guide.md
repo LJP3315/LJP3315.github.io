@@ -5,7 +5,7 @@ categories: blog
 tags: 博客框架
 ---
 
-PS：干货满满♥
+PS：干货满满
 
 ## 一、创建文章文件
 

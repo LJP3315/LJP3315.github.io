@@ -1,7 +1,7 @@
 ---
 title: "Android实验一总结"
 date: 2026-09-15
-categories: tech
+categories: school
 tags: Android
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 有关useBean的使用
 date: 2026-05-08
-categories: tech
+categories: school
 tags: JavaEE
 ---
 

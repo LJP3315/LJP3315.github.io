@@ -1,7 +1,7 @@
 ---
 title: "Python考试复习"
 date: 2026-05-17
-categories: tech
+categories: school
 tags: Python
 mathjax: true
 ---
