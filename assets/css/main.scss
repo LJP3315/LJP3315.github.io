@@ -348,3 +348,79 @@ pre code {
   }
 }
 // ==========================================
+
+// ========= 代码块复制按钮：常驻可见 & 更醒目 =========
+// 主题默认样式为 color:#ffffca（浅黄）+ opacity:0.4，
+// 在本站浅灰代码块(#eeeeee)上几乎不可见，这里整体覆盖成一枚常驻白色小按钮。
+// 位置仍固定在代码块右上角。
+pre .clipboard-copy-button,
+pre.highlight .clipboard-copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  width: auto;
+  height: auto;
+  padding: 4px 8px;
+
+  font-size: 12px;
+  line-height: 1;
+
+  opacity: 1 !important;
+  color: #57606a !important;
+  background-color: #ffffff !important;
+  border: 1px solid #d0d7de !important;
+  border-radius: 6px !important;
+  box-shadow: 0 1px 2px rgba(27, 31, 36, 0.08);
+  cursor: pointer;
+
+  transition: color 0.15s ease, background-color 0.15s ease,
+    border-color 0.15s ease, box-shadow 0.15s ease;
+
+  // 图标取消主题的绝对定位，改为随 flex 排布
+  i {
+    position: static !important;
+    top: auto !important;
+    inset-inline-end: auto !important;
+    font-size: 1em;
+  }
+
+  // 默认隐藏“对勾”，只显示“复制”图标
+  i.copied {
+    display: none !important;
+  }
+
+  // 可见文字标签
+  &::after {
+    content: "复制";
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+
+  &:hover {
+    color: #1f2328 !important;
+    border-color: #8c959f !important;
+    box-shadow: 0 2px 6px rgba(27, 31, 36, 0.16);
+  }
+
+  // 复制成功后的状态
+  &.copied {
+    color: #1a7f37 !important;
+    border-color: #8fd19e !important;
+    background-color: #eaf7ec !important;
+
+    i:not(.copied) {
+      display: none !important;
+    }
+
+    i.copied {
+      display: inline-block !important;
+      opacity: 1 !important;
+    }
+
+    &::after {
+      content: "已复制";
+    }
+  }
+}
+// ======================================================
