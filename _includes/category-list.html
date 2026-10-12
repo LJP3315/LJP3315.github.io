@@ -18,6 +18,7 @@
         {% when "tech" %}{% assign category_display = "技术" %}
         {% when "blog" %}{% assign category_display = "博客" %}
         {% when "life" %}{% assign category_display = "生活" %}
+        {% when "school" %}{% assign category_display = "学校琐事" %}
       {% endcase %}
       <a href="{{ category_word | slugify | prepend: path_type | prepend: site.category_archive.path | relative_url }}" class="page__taxonomy-item p-category" rel="tag">{{ category_display }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
     {% endfor %}

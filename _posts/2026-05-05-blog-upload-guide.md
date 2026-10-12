@@ -28,7 +28,7 @@ YYYY-MM-DD-english-slug.md
 ---
 title: "文章中文标题"
 date: 2026-05-21
-categories: tech           # 必填：tech / blog / life
+categories: tech           # 必填：tech / blog / life / school
 tags: JavaEE               # 必填：技术关键词
 mathjax: true              # 可选：有数学公式时加上这行
 description: "文章摘要"     # 推荐：用于 SEO 搜索结果展示
@@ -42,6 +42,7 @@ description: "文章摘要"     # 推荐：用于 SEO 搜索结果展示
 | `tech` | 技术 | JavaEE、Python、算法等技术学习笔记 |
 | `blog` | 博客 | 博客搭建、配置、优化相关 |
 | `life` | 生活 | 规划、健身等非技术内容 |
+| `school` | 学校琐事 | 校园生活、课程、杂记等 |
 
 ## 三、插入图片
 
