@@ -116,8 +116,7 @@ analytics:
 author:
   name             : 离暗
   avatar           : /assets/images/avatar.jpg
-  bio              : |
-    软件工程在读 | 游戏客户端
+  bio              : 软件工程在读
 
     <em>“不要去追求一时的激情，去建立恒常的秩序，知行合一”</em>
   location         : China-ChangSha
@@ -142,9 +141,9 @@ author:
     # - label: "Instagram"
     #   icon: "fab fa-fw fa-instagram"
     #   # url: "https://instagram.com/"
-    - label: "Bilibili"
-      icon: "fas fa-fw fa-tv"
-      url: "https://space.bilibili.com/470538069"
+    # - label: "Bilibili"
+    #   icon: "fas fa-fw fa-tv"
+    #   url: "https://space.bilibili.com/470538069"
 
 # Site Footer
 footer:
