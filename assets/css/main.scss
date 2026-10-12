@@ -452,3 +452,33 @@ pre.highlight .clipboard-copy-button {
   color: #ffffff;
 }
 // ======================================================
+
+// ========= 正文字号整体调小 =========
+// 主题默认根字号（见 _sass/minimal-mistakes/_reset.scss）：
+//   <768px 16px | ≥768px 18px | ≥1024px 20px | ≥1280px 22px
+// 宽屏下正文会到 22px，偏大。这里在各断点把根字号整体下调一档；
+// 标题、正文都基于 em，会一并等比缩小，比例不变。
+//
+// 想再调整大小，直接改下面这 4 个数值即可（不用改其他任何文件）。
+html {
+  font-size: 15px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 18px;
+  }
+}
+// =====================================
