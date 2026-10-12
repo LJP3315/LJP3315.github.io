@@ -50,3 +50,53 @@
     });
   });
 </script>
+
+<!-- 代码块复制成功提示：监听主题脚本给按钮加上的 .copied 类 -->
+<script>
+  (function () {
+    var toast = null;
+    var hideTimer = null;
+
+    function showToast() {
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "copy-toast";
+        toast.setAttribute("role", "status");
+        toast.innerHTML =
+          '<span class="copy-toast__icon">' +
+          '<svg viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 5"/></svg>' +
+          "</span><span>复制成功</span>";
+        document.body.appendChild(toast);
+      }
+      // 强制回流，确保过渡动画从头播放
+      void toast.offsetWidth;
+      toast.classList.add("is-visible");
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        toast.classList.remove("is-visible");
+      }, 1800);
+    }
+
+    // 主题脚本在复制成功时会给按钮加 .copied，监听该变化触发提示
+    var observer = new MutationObserver(function (mutations) {
+      for (var i = 0; i < mutations.length; i++) {
+        var el = mutations[i].target;
+        if (
+          mutations[i].type === "attributes" &&
+          el.classList &&
+          el.classList.contains("clipboard-copy-button") &&
+          el.classList.contains("copied")
+        ) {
+          showToast();
+          return;
+        }
+      }
+    });
+
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
+      subtree: true
+    });
+  })();
+</script>

@@ -349,19 +349,19 @@ pre code {
 }
 // ==========================================
 
-// ========= 代码块复制按钮：常驻可见 & 更醒目 =========
+// ========= 代码块复制按钮：文字按钮（右上角） =========
 // 主题默认样式为 color:#ffffca（浅黄）+ opacity:0.4，
-// 在本站浅灰代码块(#eeeeee)上几乎不可见，这里整体覆盖成一枚常驻白色小按钮。
+// 在本站浅灰代码块(#eeeeee)上几乎不可见，这里整体覆盖成一枚常驻的文字按钮。
 // 位置仍固定在代码块右上角。
 pre .clipboard-copy-button,
 pre.highlight .clipboard-copy-button {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
 
   width: auto;
   height: auto;
-  padding: 4px 8px;
+  padding: 5px 12px;
 
   font-size: 12px;
   line-height: 1;
@@ -377,24 +377,16 @@ pre.highlight .clipboard-copy-button {
   transition: color 0.15s ease, background-color 0.15s ease,
     border-color 0.15s ease, box-shadow 0.15s ease;
 
-  // 图标取消主题的绝对定位，改为随 flex 排布
+  // 隐藏主题自带的两个图标，按钮只保留文字
   i {
-    position: static !important;
-    top: auto !important;
-    inset-inline-end: auto !important;
-    font-size: 1em;
-  }
-
-  // 默认隐藏“对勾”，只显示“复制”图标
-  i.copied {
     display: none !important;
   }
 
-  // 可见文字标签
+  // 按钮文字
   &::after {
     content: "复制";
-    font-size: 11px;
-    letter-spacing: 0.05em;
+    font-size: 12px;
+    letter-spacing: 0.08em;
   }
 
   &:hover {
@@ -403,24 +395,60 @@ pre.highlight .clipboard-copy-button {
     box-shadow: 0 2px 6px rgba(27, 31, 36, 0.16);
   }
 
-  // 复制成功后的状态
+  // 复制成功：按钮短暂变绿（成功提示由 toast 浮层承担）
   &.copied {
     color: #1a7f37 !important;
     border-color: #8fd19e !important;
     background-color: #eaf7ec !important;
-
-    i:not(.copied) {
-      display: none !important;
-    }
-
-    i.copied {
-      display: inline-block !important;
-      opacity: 1 !important;
-    }
-
-    &::after {
-      content: "已复制";
-    }
   }
+}
+// ======================================================
+
+// ========= 复制成功提示（Toast 浮层） =========
+#copy-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  z-index: 2000;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 18px;
+  font-size: 14px;
+  line-height: 1;
+
+  color: #1a7f37;
+  background: #ffffff;
+  border: 1px solid #8fd19e;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(27, 31, 36, 0.14);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 16px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+}
+
+.copy-toast__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+
+  background: #1a7f37;
+  color: #ffffff;
 }
 // ======================================================
