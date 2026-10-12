@@ -30,3 +30,8 @@ codekit-config.json
 .sass-cache
 _asset_bundler_cache
 _site
+
+# AI 助手本地配置与工作记录（文件保留在本地，但不进版本库）
+.claude/
+.codebuddy/
+.workbuddy/
