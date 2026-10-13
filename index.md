@@ -36,9 +36,14 @@ title: "离暗 的个人博客"
 
 
 <figure class="half">
-  <img src="/assets/images/大肥鱼1.jpg" alt="图1" loading="lazy">
-  <img src="/assets/images/大肥鱼2.jpg" alt="图2" loading="lazy">
-  <figcaption>左：喜欢你　右：大肥鱼</figcaption>
+  <a class="image-popup" href="/assets/images/大肥鱼1.jpg">
+    <img src="/assets/images/大肥鱼1.jpg" alt="图1" loading="lazy">
+  </a>
+  <a class="image-popup" href="/assets/images/大肥鱼2.jpg">
+    <img src="/assets/images/大肥鱼2.jpg" alt="图2" loading="lazy">
+  </a>
+  <figcaption></figcaption>
 </figure>
+
 
 ### 文章统计
