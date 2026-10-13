@@ -482,3 +482,31 @@ html {
   }
 }
 // =====================================
+
+// ========= 全站悬浮音乐播放器（APlayer）位置修正 =========
+// APlayer 默认固定在左下角，会跟本站的「侧边栏收起」按钮重叠，
+// 这里整体镜像到右下角（桌面端右下角是空的，浮动目录在右上角）。
+html.has-music-player .aplayer.aplayer-fixed .aplayer-body {
+  left: auto;
+  right: 12px;
+  bottom: 12px;
+}
+
+// 收起状态的迷你圆钮：圆角方向跟着镜像
+html.has-music-player .aplayer.aplayer-fixed .aplayer-miniswitcher {
+  border-radius: 6px 0 0 6px;
+}
+
+// 播放列表高度限制，避免小屏铺满整个屏幕
+html.has-music-player .aplayer.aplayer-fixed .aplayer-list {
+  max-height: 45vh;
+}
+
+// 移动端（≤1024px）浮动目录按钮本来在右下角，上移给播放器让位
+@media (max-width: 1024px) {
+  html.has-music-player .floating-toc {
+    bottom: 96px;
+  }
+}
+// =========================================================
+

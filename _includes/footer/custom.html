@@ -1,3 +1,50 @@
 <!-- start custom footer snippets -->
 
+{% if site.data.music %}
+{%- assign has_lrc = false -%}
+{%- for song in site.data.music -%}
+  {%- if song.lrc -%}{%- assign has_lrc = true -%}{%- endif -%}
+{%- endfor -%}
+<!-- ========= 全站悬浮音乐播放器（APlayer） ========= -->
+<!-- 歌曲列表在 _data/music.yml 里维护 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<div id="aplayer"></div>
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script>
+(function () {
+  if (typeof APlayer === 'undefined') return;
+
+  var songs = [
+  {%- for song in site.data.music %}
+    {
+      name: {{ song.name | default: "未知歌曲" | jsonify }},
+      artist: {{ song.artist | default: "未知艺术家" | jsonify }},
+      url: {{ song.url | relative_url | jsonify }},
+      cover: {% if song.cover %}{{ song.cover | relative_url | jsonify }}{% else %}""{% endif %}{% if has_lrc %},
+      lrc: {% if song.lrc %}{{ song.lrc | relative_url | jsonify }}{% else %}""{% endif %}{% endif %}
+    }{% unless forloop.last %},{% endunless %}
+  {%- endfor %}
+  ];
+
+  new APlayer({
+    container: document.getElementById('aplayer'),
+    fixed: true,          // 悬浮固定在页面角落
+    mini: true,           // 默认收起成小圆钮，点击展开
+    autoplay: false,      // 浏览器禁止带声音的自动播放，保持 false
+    theme: '#b7daff',     // 主题色
+    loop: 'all',          // all | one | none
+    order: 'list',        // list | random
+    preload: 'none',      // 不预下载音频，点击才加载（省流量）
+    listFolded: true,     // 播放列表默认折叠
+    {% if has_lrc %}lrcType: 3,{% endif %}
+    audio: songs
+  });
+
+  // 标记已启用播放器，用于让浮动目录按钮在移动端上移避让
+  document.documentElement.classList.add('has-music-player');
+})();
+</script>
+<!-- ================================================ -->
+{% endif %}
+
 <!-- end custom footer snippets -->
