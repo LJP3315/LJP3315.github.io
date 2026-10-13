@@ -33,17 +33,4 @@ title: "离暗 的个人博客"
 
 ![离暗](/assets/images/离暗.jpg){: loading="lazy"}
 
-
-
-<figure class="half">
-  <a class="image-popup" href="/assets/images/大肥鱼1.jpg">
-    <img src="/assets/images/大肥鱼1.jpg" alt="图1" loading="lazy">
-  </a>
-  <a class="image-popup" href="/assets/images/大肥鱼2.jpg">
-    <img src="/assets/images/大肥鱼2.jpg" alt="图2" loading="lazy">
-  </a>
-  <figcaption></figcaption>
-</figure>
-
-
 ### 文章统计
