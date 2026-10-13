@@ -25,12 +25,12 @@ title: "离暗 的个人博客"
 
 ---
 
-![芙莉莲](/assets/images/芙莉莲.jpg)
+![芙莉莲](/assets/images/芙莉莲.jpg){: loading="lazy"}
 
-![卡提希娅](/assets/images/卡提希娅.png)
+![卡提希娅](/assets/images/卡提希娅.jpg){: loading="lazy"}
 
-![芙莉莲2](/assets/images/芙莉莲2.jpg)
+![芙莉莲2](/assets/images/芙莉莲2.jpg){: loading="lazy"}
 
-![离暗](/assets/images/离暗.png)
+![离暗](/assets/images/离暗.jpg){: loading="lazy"}
 
 ### 文章统计
