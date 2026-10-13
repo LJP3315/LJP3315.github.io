@@ -13,7 +13,8 @@
 # 若暂时没有音频文件，把下面 —— 之间的条目全部注释掉，播放器就不会出现。
 # ============================================================
 
-- name: "歌曲名"
-  artist: "歌手名"
-  url: "/assets/audio/song.mp3"
-  cover: ""
+- name: "愿戴荣光坠入天渊"
+  artist: "鸣潮先约电台"
+  url: "/assets/audio/愿戴荣光坠入天渊.mp3"
+  cover: "/assets/images/卡提希娅.jpg"
+  lrc: "/assets/audio/愿戴荣光坠入天渊.lrc"   # 中英对照歌词（时间轴当前为均匀占位值）
