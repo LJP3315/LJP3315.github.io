@@ -6,7 +6,7 @@
   {%- if song.lrc -%}{%- assign has_lrc = true -%}{%- endif -%}
 {%- endfor -%}
 <!-- ========= 全站悬浮音乐播放器（APlayer） ========= -->
-<!-- 歌曲列表在 _data/music.yml 里维护 -->
+<!-- 歌曲列表在 _data/music.yml 里维护；播放器可按住拖动，位置记在浏览器本地 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
 <div id="aplayer"></div>
 <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
@@ -28,7 +28,7 @@
 
   new APlayer({
     container: document.getElementById('aplayer'),
-    fixed: true,          // 悬浮固定在页面角落
+    fixed: true,          // 悬浮固定在页面上，位置可拖动
     mini: true,           // 默认收起成小圆钮，点击展开
     autoplay: false,      // 浏览器禁止带声音的自动播放，保持 false
     theme: '#b7daff',     // 主题色
@@ -40,8 +40,153 @@
     audio: songs
   });
 
-  // 标记已启用播放器，用于让浮动目录按钮在移动端上移避让
-  document.documentElement.classList.add('has-music-player');
+  /* ============ 悬浮播放器：按住拖动 + 位置记忆 ============ */
+  var ROOT = document.documentElement;
+  ROOT.classList.add('has-music-player');   // 供移动端浮动目录按钮上移避让
+  var container = document.getElementById('aplayer');
+  if (!container) return;
+
+  var EDGE = 12;                       // 与视口边缘保留的最小间距（px）
+  var KEY = 'ap-player-position';      // 位置记忆的 localStorage 键
+  var bodyEl = container.querySelector('.aplayer-body');
+  var switcher = container.querySelector('.aplayer-miniswitcher');
+  var menuBtn = container.querySelector('.aplayer-icon-menu');
+  var pos = null;                      // { x: 距视口左边, y: 距视口下边 }，单位 px
+  var drag = null;                     // 拖拽过程的状态
+  var guardUntil = 0;                  // 拖动刚结束时，吞掉紧随其后的那次 click
+
+  function clamp(v, lo, hi) {
+    return v < lo ? lo : (v > hi ? hi : v);
+  }
+
+  // 面板宽度与播放条同步（展开/收起播放条时宽度会变：66px ↔ 约 400px）
+  function syncWidth() {
+    var w = Math.round(bodyEl.offsetWidth);
+    if (w) container.style.setProperty('--ap-w', w + 'px');
+  }
+
+  // 整个悬浮块（播放条 + 可能展开的播放列表）的尺寸，用来限制不跑出视口
+  function widgetSize() {
+    return {
+      w: Math.max(container.offsetWidth, bodyEl.offsetWidth),
+      h: Math.max(container.offsetHeight, bodyEl.offsetHeight)
+    };
+  }
+
+  // 把 pos 换算成 CSS 变量并写回页面（含边界收敛）
+  function apply() {
+    if (!pos) return;
+    var size = widgetSize();
+    pos.x = clamp(pos.x, EDGE, Math.max(EDGE, window.innerWidth - size.w - EDGE));
+    pos.y = clamp(pos.y, EDGE, Math.max(EDGE, window.innerHeight - size.h - EDGE));
+    container.style.setProperty('--ap-left', Math.round(pos.x) + 'px');
+    container.style.setProperty('--ap-bottom', Math.round(pos.y) + 'px');
+    ROOT.classList.add('ap-positioned');
+  }
+
+  function save() {
+    if (!pos) return;
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ x: pos.x, y: pos.y }));
+    } catch (err) {}
+  }
+
+  // 决定这次按下算不算「抓取」：
+  //   右侧开关条 —— 一律可拖
+  //   播放列表 —— 留给滚动和点歌
+  //   进度条/音量条/各种图标按钮 —— 是控件，不拖
+  //   播放条其余空白（专辑封面、标题区）—— 可拖；单击仍照常播放/暂停
+  function isHandle(node) {
+    if (!node || !node.closest) return false;
+    if (node.closest('.aplayer-miniswitcher')) return true;
+    if (node.closest('.aplayer-list')) return false;
+    if (node.closest('.aplayer-icon, .aplayer-bar-wrap, .aplayer-volume-wrap, button, a')) return false;
+    return !!node.closest('.aplayer-body');
+  }
+
+  container.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (!isHandle(e.target)) return;
+    var rect = bodyEl.getBoundingClientRect();
+    drag = {
+      id: e.pointerId,
+      x0: e.clientX,
+      y0: e.clientY,
+      left0: rect.left,
+      bottom0: window.innerHeight - rect.bottom,
+      moved: false
+    };
+    if (e.target.setPointerCapture) {
+      try { e.target.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+  });
+
+  window.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var dx = e.clientX - drag.x0;
+    var dy = e.clientY - drag.y0;
+    if (!drag.moved) {
+      if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;   // 手抖不算拖动
+      drag.moved = true;                                  // 过了阈值，才真的开始拖
+      ROOT.classList.add('ap-dragging');
+      if (!pos) pos = { x: drag.left0, y: drag.bottom0 };  // 首次拖动：把默认落点换算成绝对坐标
+    }
+    pos.x = drag.left0 + dx;
+    pos.y = drag.bottom0 - dy;
+    apply();
+    e.preventDefault();
+  }, { passive: false });
+
+  function endDrag(e) {
+    if (!drag || (e && e.pointerId !== drag.id)) return;
+    var moved = drag.moved;
+    drag = null;
+    ROOT.classList.remove('ap-dragging');
+    if (moved) {
+      guardUntil = Date.now() + 350;
+      save();
+    }
+  }
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
+
+  // 捕获阶段拦掉「拖动之后紧跟的那次 click」，否则松手会被当成点击→误触发播放/收起
+  document.addEventListener('click', function (e) {
+    if (Date.now() > guardUntil) return;
+    if (!e.target.closest || !e.target.closest('#aplayer')) return;
+    e.stopPropagation();
+    e.preventDefault();
+  }, true);
+
+  // 展开/收起播放条、播放列表后尺寸都会变，等过渡动画结束后重新收敛一次边界
+  function relayout(delay) {
+    setTimeout(function () {
+      syncWidth();
+      if (pos) apply();
+    }, delay);
+  }
+  if (switcher) switcher.addEventListener('click', function () { relayout(360); });
+  if (menuBtn) menuBtn.addEventListener('click', function () { relayout(560); });
+  window.addEventListener('resize', function () {
+    syncWidth();
+    if (pos) apply();
+  });
+  window.addEventListener('orientationchange', function () { relayout(300); });
+
+  if (switcher) {
+    var switcherBtn = switcher.querySelector('button');
+    if (switcherBtn) switcherBtn.title = '点击展开/收起，按住可拖动';
+  }
+
+  // 恢复上次拖到的位置（换页面、刷新都记得）
+  syncWidth();
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && typeof saved.x === 'number' && typeof saved.y === 'number') {
+      pos = { x: saved.x, y: saved.y };
+      apply();
+    }
+  } catch (err) {}
 })();
 </script>
 <!-- ================================================ -->

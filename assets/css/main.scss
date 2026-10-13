@@ -483,13 +483,37 @@ html {
 }
 // =====================================
 
-// ========= 全站悬浮音乐播放器（APlayer）位置修正 =========
-// APlayer 默认固定在左下角，会跟本站的「侧边栏收起」按钮重叠，
-// 这里整体镜像到右下角（桌面端右下角是空的，浮动目录在右上角）。
+// ========= 全站悬浮音乐播放器（APlayer）：位置与拖拽 =========
+// APlayer 在 fixed 模式下把「播放列表容器 .aplayer-fixed」和「播放条 .aplayer-body」
+// 各自钉在视口上（两者都是 position:fixed，互不隶属），所以必须喂给它们同一组坐标，
+// 否则拖动时播放条会把播放列表面板甩在原地。
+//
+// 坐标由 JS 写进容器上的三个自定义属性：
+//   --ap-left / --ap-bottom : 距视口左边缘 / 下边缘的距离（px）
+//   --ap-w                  : 面板宽度，让它跟播放条等宽
+// html.ap-positioned 表示「已被拖动过」，此时才启用这套绝对坐标；
+// 没拖动过时维持默认落点：右下角。
+html.has-music-player .aplayer.aplayer-fixed,
 html.has-music-player .aplayer.aplayer-fixed .aplayer-body {
+  top: auto;
   left: auto;
   right: 12px;
   bottom: 12px;
+}
+
+// 拖动过之后：改用 JS 写入的绝对坐标
+html.has-music-player.ap-positioned .aplayer.aplayer-fixed,
+html.has-music-player.ap-positioned .aplayer.aplayer-fixed .aplayer-body {
+  left: var(--ap-left, 12px);
+  right: auto;
+  bottom: var(--ap-bottom, 12px);
+}
+
+// 播放列表面板的宽度跟随播放条。APlayer 会从 body 的 offsetWidth 里扣掉 18px 的开关条，
+// 不锁宽度的话容器会按内容 shrink-to-fit，展开后比播放条窄一截。
+html.has-music-player .aplayer.aplayer-fixed {
+  width: var(--ap-w, 400px);
+  max-width: calc(100vw - 24px);
 }
 
 // 收起状态的迷你圆钮：圆角方向跟着镜像
@@ -500,6 +524,34 @@ html.has-music-player .aplayer.aplayer-fixed .aplayer-miniswitcher {
 // 播放列表高度限制，避免小屏铺满整个屏幕
 html.has-music-player .aplayer.aplayer-fixed .aplayer-list {
   max-height: 45vh;
+}
+
+// ---- 拖拽交互 ----
+// 手型提示可拖动；touch-action: none 让手机上的按住拖动不再被当成滚页面
+html.has-music-player .aplayer.aplayer-fixed .aplayer-body,
+html.has-music-player .aplayer.aplayer-fixed .aplayer-miniswitcher,
+html.has-music-player .aplayer.aplayer-fixed .aplayer-miniswitcher button {
+  cursor: grab;
+  touch-action: none;
+}
+
+// 拖动中：手型变成抓取
+html.has-music-player.ap-dragging .aplayer.aplayer-fixed .aplayer-body,
+html.has-music-player.ap-dragging .aplayer.aplayer-fixed .aplayer-miniswitcher,
+html.has-music-player.ap-dragging .aplayer.aplayer-fixed .aplayer-miniswitcher button {
+  cursor: grabbing;
+}
+
+// 拖动中关掉过渡，否则播放条会「追」着指针跑
+html.has-music-player.ap-dragging .aplayer.aplayer-fixed,
+html.has-music-player.ap-dragging .aplayer.aplayer-fixed .aplayer-body {
+  transition: none !important;
+}
+
+// 拖动中禁止选中文字
+html.has-music-player.ap-dragging,
+html.has-music-player.ap-dragging * {
+  user-select: none !important;
 }
 
 // 移动端（≤1024px）浮动目录按钮本来在右下角，上移给播放器让位
