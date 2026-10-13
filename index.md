@@ -29,4 +29,8 @@ title: "离暗 的个人博客"
 
 ![卡提希娅](/assets/images/卡提希娅.png)
 
+![芙莉莲2](/assets/images/芙莉莲2.jpg)
+
+![离暗](/assets/images/离暗.png)
+
 ### 文章统计
