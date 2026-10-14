@@ -4,16 +4,22 @@ author_profile: true
 title: "离暗 的个人博客"
 ---
 
+![离暗](/assets/images/离暗.jpg){: loading="lazy"}
+
 ### 最近在做什么
 
 - 刷算法题
 - 学习
+
+![芙莉莲2](/assets/images/芙莉莲2.jpg){: loading="lazy"}
 
 ---
 
 ### 我的项目
 
 * 还在打磨......
+
+![卡提希娅](/assets/images/卡提希娅.jpg){: loading="lazy"}
 
 ---
 
@@ -23,14 +29,8 @@ title: "离暗 的个人博客"
 * 能力越大，责任越大；能力越小，责任越小
 * 如果是勇者辛美尔的话，我相信他也会这么做......
 
----
-
 ![芙莉莲](/assets/images/芙莉莲.jpg){: loading="lazy"}
 
-![卡提希娅](/assets/images/卡提希娅.jpg){: loading="lazy"}
-
-![芙莉莲2](/assets/images/芙莉莲2.jpg){: loading="lazy"}
-
-![离暗](/assets/images/离暗.jpg){: loading="lazy"}
+---
 
 ### 文章统计
