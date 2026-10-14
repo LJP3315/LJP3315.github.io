@@ -26,6 +26,7 @@
 - name: "Hearts Glow"
   artist: "Hana Hope"
   url: "/assets/audio/Hearts Glow.mp3"
+  cover: "/assets/images/再见菈菈.png"
 
 - name: "if"
   artist: "西野カナ"
