@@ -26,7 +26,7 @@
   {%- endfor %}
   ];
 
-  new APlayer({
+  var ap = new APlayer({
     container: document.getElementById('aplayer'),
     fixed: true,          // 悬浮固定在页面上，位置可拖动
     mini: true,           // 默认收起成小圆钮，点击展开
@@ -39,6 +39,72 @@
     {% if has_lrc %}lrcType: 3,{% endif %}
     audio: songs
   });
+
+  /* ============ 跨页面记忆播放状态 ============ */
+  /* PJAX 换页时播放器 DOM 不重建、音乐不断，无需处理；
+     这里只负责「整页刷新 / 新开标签」时恢复上次的曲目、进度、是否在播。
+     音量 APlayer 已内置持久化（localStorage: aplayer-setting），不重复处理。 */
+  var STATE_KEY = 'ap-player-state';
+  var stateTimer = null;
+  var restoring = true;   // 恢复流程完成前不回写，防止把旧状态冲掉
+
+  function saveState() {
+    if (restoring) return;
+    try {
+      if (!ap || !ap.audio) return;
+      localStorage.setItem(STATE_KEY, JSON.stringify({
+        i: ap.list.index || 0,              // 当前曲目序号
+        t: Math.floor(ap.audio.currentTime || 0),  // 播放进度（秒）
+        p: ap.audio.paused ? 0 : 1          // 是否正在播放
+      }));
+    } catch (err) {}
+  }
+
+  // timeupdate 触发很频繁（约 4 次/秒），节流到 3 秒存一次
+  ap.on('timeupdate', function () {
+    if (stateTimer) return;
+    stateTimer = setTimeout(function () { stateTimer = null; saveState(); }, 3000);
+  });
+  ap.on('play', saveState);
+  ap.on('pause', saveState);
+  ap.on('listswitch', saveState);              // 切歌立即记下曲目
+  window.addEventListener('pagehide', saveState);  // 关页/刷新前兜底存一次
+
+  // —— 恢复上次状态 ——
+  (function restore() {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem(STATE_KEY) || 'null'); } catch (err) {}
+    function finish() { restoring = false; saveState(); }
+
+    var count = (ap.list.audios || []).length;
+    if (!s || typeof s.i !== 'number' || s.i < 0 || !count) { restoring = false; return; }
+
+    var index = Math.min(s.i, count - 1);      // 歌单变短时收敛到范围内
+    var wantTime = Math.max(0, Math.floor(s.t || 0));
+    var wantPlay = !!s.p;
+
+    if (index > 0) ap.list.switch(index);      // 切到上次那首（不会自动开播）
+
+    // seek 必须等音频元数据加载（duration > 0）才有效；preload:'none' 时
+    // 只有真正 play() 才会加载，然后才触发 loadedmetadata / canplay
+    function seekOnce() {
+      var dur = ap.audio.duration || 0;
+      if (!dur || !isFinite(dur)) return;      // 元数据未就绪，等下一次事件
+      ap.audio.removeEventListener('loadedmetadata', seekOnce);
+      ap.audio.removeEventListener('canplay', seekOnce);
+      if (wantTime > 3 && wantTime < dur - 3) ap.seek(wantTime);
+      finish();
+    }
+    ap.audio.addEventListener('loadedmetadata', seekOnce);
+    ap.audio.addEventListener('canplay', seekOnce);
+
+    if (wantPlay) {
+      // 若被浏览器自动播放策略拦下，APlayer 内部会把 UI 同步回暂停态，
+      // 之后用户手动点播放时上面的事件仍会把进度补上
+      ap.play();
+    }
+    setTimeout(finish, 4000);                  // 兜底：无论加载与否 4 秒后恢复记录
+  })();
 
   /* ============ 悬浮播放器：按住拖动 + 位置记忆 ============ */
   var ROOT = document.documentElement;
@@ -191,5 +257,202 @@
 </script>
 <!-- ================================================ -->
 {% endif %}
+
+<script>
+/* ============ PJAX：站内换页不重建播放器，音乐不断 ============ */
+/* #footer（含 #aplayer）在 _layouts/default.html 里位于 .initial-content 之外，
+   只替换 .initial-content 就能保住播放器 DOM，<audio> 不重建、音乐不断。
+   换页后必须手动补做：①MathJax 按页加载 ②主题 _main.js 的一次性初始化
+   ③侧边栏按钮重绑（window.wbSyncSidebarToggle）。
+   history 操作一律 try 保护，异常或请求失败回落整页跳转。 */
+(function () {
+  if (!window.history || !window.fetch || !window.DOMParser) return;
+
+  var CONTAINER = '.initial-content';
+  var busy = false;
+  var scrollMem = {};   // 每个 URL 的滚动位置，供「后退」时恢复
+
+  function sameOrigin(href) {
+    try {
+      return new URL(href, location.href).origin === location.origin;
+    } catch (err) { return false; }
+  }
+
+  function shouldHandle(e, link) {
+    if (e.defaultPrevented || e.button !== 0) return false;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return false;
+    if (!link) return false;
+    var href = link.getAttribute('href');
+    if (!href || href.charAt(0) === '#') return false;
+    if (link.target && link.target !== '_self') return false;
+    if (link.hasAttribute('download')) return false;
+    if (/^(mailto:|tel:|javascript:)/i.test(href)) return false;
+    if (!sameOrigin(href)) return false;
+    if (link.closest('[data-no-pjax]')) return false;
+    return true;
+  }
+
+  /* —— 换页后的补偿初始化 —— */
+  function reInit(root, hasMath) {
+    // ① MathJax：它是按 page.mathjax 逐页加载的；新页面有公式而当前页没加载过
+    //    loader 时，现场注入配置 + loader，加载完再排版
+    if (hasMath) {
+      if (window.MathJax && window.MathJax.startup) {
+        MathJax.typesetPromise([root]).catch(function () {});
+      } else if (!document.querySelector('script[src*="mathjax"]')) {
+        var cfg = document.createElement('script');
+        cfg.text = 'MathJax = { tex: { inlineMath: [["$", "$"], ["\\\\(", "\\\\)"]],'
+                 + ' displayMath: [["$$", "$$"], ["\\\\[", "\\\\]"]], processEscapes: true },'
+                 + ' options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] } };';
+        document.head.appendChild(cfg);
+        var loader = document.createElement('script');
+        loader.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+        loader.async = true;
+        loader.onload = function () {
+          try {
+            if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([root]).catch(function () {});
+          } catch (err) {}
+        };
+        document.head.appendChild(loader);
+      }
+    }
+
+    // ② 主题 _main.js 的一次性初始化（jQuery 主题自带）
+    if (window.jQuery) {
+      var $ = window.jQuery;
+      try { $('#main').fitVids(); } catch (err) {}
+      // 图片灯箱：只给没绑定过的链接绑定（data-wb-lb 打标），避免重复叠加
+      try {
+        var $fresh = $('a[href$=".jpg"],a[href$=".jpeg"],a[href$=".JPG"],a[href$=".png"],'
+                     + 'a[href$=".gif"],a[href$=".webp"]').has('> img').not('[data-wb-lb]');
+        $fresh.addClass('image-popup').attr('data-wb-lb', '1');
+        $fresh.magnificPopup({
+          type: 'image',
+          tLoading: 'Loading image #%curr%...',
+          gallery: { enabled: true, navigateByImgClick: true, preload: [0, 1] },
+          image: { tError: '<a href="%url%">Image #%curr%</a> could not be loaded.' },
+          removalDelay: 500,
+          mainClass: 'mfp-zoom-in',
+          callbacks: {
+            beforeOpen: function () {
+              this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+            }
+          },
+          closeOnContentClick: true,
+          midClick: true
+        });
+      } catch (err) {}
+    }
+
+    // ③ 标题锚点（.header-link）
+    try {
+      root.querySelectorAll('.page__content h1, .page__content h2, .page__content h3,'
+        + ' .page__content h4, .page__content h5, .page__content h6').forEach(function (el) {
+        var id = el.getAttribute('id');
+        if (!id) return;
+        var anchor = document.createElement('a');
+        anchor.className = 'header-link';
+        anchor.href = '#' + id;
+        anchor.innerHTML = '<span class="sr-only">Permalink</span><i class="fas fa-link"></i>';
+        anchor.title = 'Permalink';
+        el.appendChild(anchor);
+      });
+    } catch (err) {}
+
+    // ④ 代码块复制按钮（与 _main.js 相同逻辑，自带幂等：已有按钮就跳过）
+    if (window.enable_copy_code_button) {
+      try {
+        root.querySelectorAll('.page__content pre.highlight > code').forEach(function (code) {
+          var pre = code.parentElement;
+          if (!pre || (pre.firstElementChild && pre.firstElementChild.tagName.toLowerCase() !== 'code')) return;
+          var btn = document.createElement('button');
+          btn.title = 'Copy to clipboard';
+          btn.className = 'clipboard-copy-button';
+          btn.innerHTML = '<span class="sr-only">Copy code</span><i class="far fa-fw fa-copy"></i><i class="fas fa-fw fa-check copied"></i>';
+          btn.addEventListener('click', function () {
+            var target = code.querySelector('td.code, td.rouge-code') || code;
+            var done = function () {
+              btn.classList.add('copied');
+              if (btn.interval) clearTimeout(btn.interval);
+              btn.interval = setTimeout(function () {
+                btn.classList.remove('copied');
+                btn.interval = null;
+              }, 1500);
+            };
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(target.innerText).then(done, done);
+            } else {
+              done();
+            }
+          });
+          pre.prepend(btn);
+        });
+      } catch (err) {}
+    }
+
+    // ⑤ 侧边栏折叠按钮重绑（#main 已被替换，旧监听器失效）
+    if (typeof window.wbSyncSidebarToggle === 'function') {
+      try { window.wbSyncSidebarToggle(); } catch (err) {}
+    }
+  }
+
+  /* —— 抓取并替换 .initial-content —— */
+  function navigate(url, push, scrollTo) {
+    if (busy) return;
+    busy = true;
+    fetch(url, { credentials: 'same-origin', headers: { 'X-Requested-With': 'wb-pjax' } })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var fresh = doc.querySelector(CONTAINER);
+        var stale = document.querySelector(CONTAINER);
+        if (!fresh || !stale) throw new Error('container missing');
+        var hasMath = !!doc.querySelector('script[src*="mathjax"]');
+
+        var imported = document.importNode(fresh, true);
+        stale.parentNode.replaceChild(imported, stale);
+        if (doc.title) document.title = doc.title;
+        // body 上带着每页不同的 layout--xxx / 自定义 classes，必须同步
+        document.body.className = doc.body.className;
+
+        try {
+          if (push) history.pushState({ wb: 1 }, '', url);
+        } catch (err) {
+          location.href = url;   // history 异常回落整页跳转
+          return;
+        }
+
+        window.scrollTo(0, typeof scrollTo === 'number' ? scrollTo : 0);
+        reInit(imported, hasMath);
+        busy = false;
+      })
+      .catch(function () {
+        location.href = url;     // 请求/解析失败回落整页跳转
+      });
+  }
+
+  // 离开当前 URL 前记住滚动位置，后退回来时恢复
+  function rememberScroll() {
+    scrollMem[location.href] = window.scrollY;
+  }
+
+  document.addEventListener('click', function (e) {
+    var link = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!shouldHandle(e, link)) return;
+    e.preventDefault();
+    rememberScroll();
+    navigate(link.href, true);
+  });
+
+  window.addEventListener('popstate', function () {
+    rememberScroll();   // 离开当前页前也记一份
+    var target = typeof scrollMem[location.href] === 'number' ? scrollMem[location.href] : 0;
+    navigate(location.href, false, target);
+  });
+})();
+</script>
 
 <!-- end custom footer snippets -->

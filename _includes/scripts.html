@@ -27,27 +27,36 @@
     <script src="{{ script | relative_url }}"></script>
   {% endfor %}
 {% endif %}
-<!-- 侧边栏折叠按钮 -->
+<!-- 侧边栏折叠按钮（整页加载与 PJAX 换页后都要调用一次：#main 在 .initial-content 里会被整体替换） -->
 <button id="toggle-sidebar-btn" title="显示/隐藏侧边栏">
   <i class="fas fa-arrows-alt-h"></i>
 </button>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const btn = document.getElementById("toggle-sidebar-btn");
+  window.wbSyncSidebarToggle = function () {
+    var btn = document.getElementById("toggle-sidebar-btn");
+    if (!btn) return;
     // #main 是 Minimal Mistakes 的顶层内容容器，.sidebar 和 article.page 都是其直接子元素
-    const mainEl = document.getElementById("main");
+    var mainEl = document.getElementById("main");
 
     // 如果当前页面没有侧边栏，则隐藏按钮
     if (!mainEl || mainEl.querySelector(".sidebar") === null) {
       btn.style.display = "none";
       return;
     }
+    btn.style.display = "";
 
-    // 点击按钮：在 #main 上切换 sidebar-hidden 类
-    btn.addEventListener("click", function() {
+    // 用克隆替换掉按钮，清掉绑在旧按钮上的监听器（旧监听器指向已被替换的 #main），
+    // 再对新的 #main 绑定，保证 PJAX 换页后重复调用也不会叠加监听
+    var fresh = btn.cloneNode(true);
+    if (btn.parentNode) btn.parentNode.replaceChild(fresh, btn);
+    fresh.addEventListener("click", function () {
       mainEl.classList.toggle("sidebar-hidden");
     });
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    window.wbSyncSidebarToggle();
   });
 </script>
 
