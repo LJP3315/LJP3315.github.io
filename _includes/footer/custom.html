@@ -418,6 +418,22 @@
         // body 上带着每页不同的 layout--xxx / 自定义 classes，必须同步
         document.body.className = doc.body.className;
 
+        // 关键：importNode 插入的 <script> 不会执行（浏览器规定），
+        // 必须原地重建 script 元素才会运行——待办、时间轴、浮动目录
+        // （toc-floating）都靠正文里的内联脚本渲染，不重放就是一片空白
+        imported.querySelectorAll('script').forEach(function (old) {
+          var type = old.getAttribute('type');
+          if (type && type.toLowerCase() !== 'text/javascript') return;  // 跳过 ld+json 等数据块
+          var s = document.createElement('script');
+          if (old.src) {
+            s.src = old.src;
+            s.async = false;   // 外链脚本保持原有执行顺序
+          } else {
+            s.text = old.text;
+          }
+          old.parentNode.replaceChild(s, old);
+        });
+
         try {
           if (push) history.pushState({ wb: 1 }, '', url);
         } catch (err) {
