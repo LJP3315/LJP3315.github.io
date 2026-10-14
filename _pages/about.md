@@ -10,7 +10,7 @@ permalink: /about/
 - 还在寻找
 
 ### 目标
-成为一名正常的人
+* 成为一名正常的人
 
 ### 联系方式
 - GitHub: https://github.com/LJP3315
