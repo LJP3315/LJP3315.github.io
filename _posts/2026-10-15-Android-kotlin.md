@@ -69,7 +69,7 @@ fun main() {
 
 ---
 
-## 实验二
+## 实验2
 
 ### 内容：
 
@@ -132,5 +132,77 @@ fun main() {
 
 ---
 
+## 实验3
 
+### 内容：
 
+集合与Lambda。结合data class 与Kotlin集合操作，练习使用filter、map及sortedByDescending等常用Lambda高阶函数进行数据处理与排序；
+
+```kotlin
+package exp3.实验3
+
+// filter(过滤，根据你给出的条件，保留符合的元素)
+// map(映射，类比之前讲学生列表映射为分数列表)
+// sortedBy / sortedByDescending(排序)
+// 前者为升序，后者为降序
+
+// lambda表达式示例：
+// 通过lambda表达式，我可以在主函数中实现函数的声明
+//fun main() {
+//    val sum: (Int, Int) -> Int = { x, y ->
+//        println("sum of $x, $y")
+//        x + y
+//    }
+//    val plus: (Int, Int, Int) -> Int = { x, y, z ->
+//        println("三个数的和为：")
+//        x + y + z
+//    }
+//    println(plus(1,2, 1000))
+//}
+
+data class Student(val name: String, val score: Int, val gender: String)
+
+fun main() {
+    val students = listOf(
+        Student("张三", 85, "男"),
+        Student("李四", 59, "男"),
+        Student("王五", 92, "女"),
+        Student("赵六", 76, "女"),
+        Student("孙七", 45, "男"),
+        Student("周八", 88, "男")
+    )
+
+    println("全体学生名单:")
+    students.forEach {
+        println("姓名：${it.name}, 分数：${it.score}")
+    }
+
+    println("及格学生名单:")
+    val passStudents = students.filter { it.score >= 60 }
+    passStudents.forEach {
+        println("姓名：${it.name}, 分数：${it.score}")
+    }
+
+    val passNames = passStudents.map { it.name }
+    println("及格学生姓名列表：")
+    println(passNames)
+
+    val sortedStudents = students.sortedByDescending { it.score }
+
+    sortedStudents.forEachIndexed { i, student ->
+        println("第${i+1}名: ${student.name}")
+    }
+
+    println("优秀学生姓名（链式调用）")
+    val topStudentNames = students
+        .filter { it.score >= 80}
+        .sortedByDescending { it.score }
+        .map { it.name }
+
+    println(topStudentNames)
+}
+```
+
+### 结果：
+
+![](/assets/images/School/26-10-15-2.jpg){: loading="lazy"}
