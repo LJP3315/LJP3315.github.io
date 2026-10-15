@@ -195,7 +195,7 @@ fun main() {
 
     println("优秀学生姓名（链式调用）")
     val topStudentNames = students
-        .filter { it.score >= 80}
+        .filter { it.score >= 80 }
         .sortedByDescending { it.score }
         .map { it.name }
 
@@ -206,3 +206,75 @@ fun main() {
 ### 结果：
 
 ![](/assets/images/School/26-10-15-3.jpg){: loading="lazy"}
+
+---
+
+## 实验4
+
+### 内容：
+
+ 可扩展计算器。深入学习函数作为参数和函数作为返回值的高阶函数用法
+
+```kotlin
+package exp3.实验4
+
+// 函数作为参数
+// 函数作为返回值
+// 可扩展计算器中，运算逻辑可作为参数或者返回值进行传递
+// 可以通过扩展新的Lambda表达式
+
+fun calculate(a:Double, b:Double, operation:(Double,Double)->Double):Double {
+    val result = operation(a, b)
+    println("result: $result")
+    return result
+}
+
+fun getCalculator(operator: String): (Double, Double) -> Double {
+    return when (operator) {
+        "+" -> { x, y -> x + y }
+        "-" -> { x, y -> x - y }
+        "*" -> { x, y -> x * y }
+        "/" -> { x, y ->
+            if (y == 0.0) { 0.0 } else { x / y }
+        }
+        else -> { _, _ -> 0.0 }
+    }
+}
+
+fun getAvg(a:Double, b:Double) : Double {
+    return (a + b) / 2
+}
+
+fun getSum(a:Double, b:Double) : Double {
+    return a + b
+}
+
+fun main() {
+    val num1 = 80.0
+    val num2 = 4.0
+
+    calculate(num1, num2) { x, y ->
+        (x + y) / 2
+    }
+
+    calculate(num1, num2) { x, y ->
+        (x + y) * (x - y)
+    }
+
+    calculate(num1, num2, ::getAvg)
+    calculate(num1, num2, ::getSum)
+
+    val opSymbol = "*"
+    // 根据符号，选择返回的函数，将函数作为参数传入到calculate这个方法中
+    val multiply = getCalculator(opSymbol)
+    calculate(num1, num2, multiply)
+
+    // getCalculator()返回一个函数，后面的作为调用函数的参数
+    val res = getCalculator("-")(num1, num2)
+    println(res)
+}
+```
+
+### 结果：
+
+![](/assets/images/School/26-10-15-4.jpg){: loading="lazy"}
