@@ -31,3 +31,11 @@
 - name: "if"
   artist: "西野カナ"
   url: "/assets/audio/if.mp3"
+
+- name: "イエスタデイ"
+  artist: "Hello World"
+  url: "/assets/audio/イエスタデイ.mp3"
+
+- name: "届かない恋"
+  artist: "上原玲奈"
+  url: "/assets/audio/届かない恋.mp3"
