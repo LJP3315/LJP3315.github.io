@@ -46,7 +46,12 @@ search: false
 }
 // ===============================================================
 
-// 代码字体单独覆盖回等宽字体（使用霞鹜文楷等宽）
+// ========= 代码字体：Maple Mono NF CN =========
+// 字体文件由 _includes/head/custom.html 里的 ZeoSeven CDN 引入。
+// 这里同时开启连字（ligature）：Maple Mono 的连字放在 OpenType 的 calt 特性里
+// （见字体 name 表：UniqueFontID 尾部 +calt）。浏览器默认一般就开着 calt，
+// 但显式声明一遍更保险，也避免被其他 reset 或浏览器策略关掉。
+// 加了 -webkit- 前缀是为了兼容老版 Safari / Chrome。
 code,
 pre,
 kbd,
@@ -56,8 +61,17 @@ tt,
 .highlight *,
 .highlight *::before,
 .highlight *::after {
-  font-family: 'LXGW WenKai Mono', Menlo, Monaco, Consolas, monospace !important;
+  font-family: 'Maple Mono NF CN', 'LXGW WenKai Mono', Menlo, Monaco, Consolas,
+    monospace !important;
+
+  // 连字总开关：上下文连字（calt）+ 标准连字（liga）
+  font-variant-ligatures: contextual common-ligatures;
+  -webkit-font-variant-ligatures: contextual common-ligatures;
+
+  font-feature-settings: "liga" 1, "calt" 1;
+  -webkit-font-feature-settings: "liga" 1, "calt" 1;
 }
+// =============================================
 
 // 代码块横向滚动（防止长代码被截断）
 pre,

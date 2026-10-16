@@ -3,8 +3,18 @@
 <!-- 网站图标 -->
 <link rel="icon" type="image/png" href="{{ '/assets/images/webseit-image.png' | relative_url }}" />
 
-<!-- 霞鹜文楷（正文与代码字体，含 LXGW WenKai Mono） -->
+<!-- 霞鹜文楷（正文字体，含 LXGW WenKai Mono，现作为代码字体的回退） -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" />
+
+<!-- Maple Mono NF CN —— 代码字体（等宽 + 连字 + Nerd Font 图标 + 中日文字形）
+     官方 README 推荐的 CDN（ZeoSeven Fonts）。该 CSS 由 cn-font-split 生成，
+     按 unicode-range 把字体切成近 200 个小分片，浏览器只下载当页真正用到的分片
+     （纯 ASCII 代码大约只会拉 1 个 ~9KB 的 woff2，中日文字符按需加载）。
+     442/main = Regular(400)，442/bold = Bold(700)，对应代码高亮里的加粗 token。
+     字体特性：连字由 calt 提供，在 assets/css/main.scss 里显式开启。 -->
+<link rel="preconnect" href="https://fontsapi.zeoseven.com" crossorigin />
+<link rel="stylesheet" href="https://fontsapi.zeoseven.com/442/main/result.css" />
+<link rel="stylesheet" href="https://fontsapi.zeoseven.com/442/bold/result.css" />
 
 {% if page.mathjax %}
 <!-- MathJax 3 数学公式渲染 -->
