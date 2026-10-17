@@ -1,205 +1,163 @@
 ---
-title: "安卓Activity生成注册"
+title: "安卓 Activity生成注册 Intent传递信息"
 date: 2026-10-16
 categories: school
 tags: Android
 ---
 
+主要记录实验5中出现的Activity之间的跳转，使用Intent在不同界面传输数据
 
 
 
+### MainActivity.kt
 
 ```kotlin
-// MainActivity.kt
-
 package com.example.exp5
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.exp5.ui.theme.Exp5Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
-            Exp5Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding))
+            val context = LocalContext.current
+
+            var username by remember { mutableStateOf("") }
+            var password by remember { mutableStateOf("") }
+            var address by remember { mutableStateOf("未选择") }
+
+            // 接收地址选择页面返回的数据
+            val addressLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    address = result.data?.getStringExtra("address") ?: "未选择"
                 }
             }
-        }
-    }
-}
 
-@Composable
-fun MainScreen(modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("未选择") }
-
-    // 实验内容二 步骤1：通过 rememberLauncherForActivityResult() 注册结果接收器
-    val addressLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        // 步骤3：在 onResult 回调中获取返回的 ActivityResult，读取 Intent 携带的数据
-        if (result.resultCode == Activity.RESULT_OK) {
-            address = result.data?.getStringExtra("address") ?: "未选择"
-        }
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(
-            text = "用户注册",
-            style = MaterialTheme.typography.headlineMedium
-        )
-
-        OutlinedTextField(
-            value = username,
-            onValueChange = { username = it },
-            label = { Text("用户名") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("密码") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Button(onClick = {
-                // 步骤1：使用 launcher.launch(intent) 启动 AddressSelectedActivity
-                addressLauncher.launch(
-                    Intent(context, AddressSelectedActivity::class.java)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "用户注册",
+                    style = MaterialTheme.typography.headlineMedium
                 )
-            }) {
-                Text("地址选择")
-            }
-            Text(text = "当前地址：$address")
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+                // 输入用户名
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = { username = it },
+                    label = { Text("用户名") },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-        Button(
-            onClick = {
-                // 实验内容一：MainActivity 发送数据的四个步骤
-                // 1. 建立 Intent
-                val intent = Intent(context, ResultActivity::class.java)
-                // 2. 新建 Bundle，并设置数据
-                val bundle = Bundle().apply {
-                    putString("username", username)
-                    putString("password", password)
-                    putString("address", address)
+                // 输入密码
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("密码") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                // 跳转到地址选择页面
+                Button(
+                    onClick = {
+                        addressLauncher.launch(
+                            Intent(context, AddressSelectedActivity::class.java)
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("选择地址")
                 }
-                // 3. 使用 Intent 携带 Bundle
-                intent.putExtras(bundle)
-                // 4. 启动 Activity（StartActivity 形式）
-                context.startActivity(intent)
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("下一步")
+
+                // 显示当前选择的地址
+                Text(text = "当前地址：$address")
+
+                // 跳转到结果页面并传递数据
+                Button(
+                    onClick = {
+
+                        // 第一步：建立 Intent
+                        val intent = Intent(
+                            context,
+                            ResultActivity::class.java
+                        )
+
+                        // 第二步：新建 Bundle，并设置数据
+                        val bundle = Bundle()
+                        bundle.putString("username", username)
+                        bundle.putString("password", password)
+                        bundle.putString("address", address)
+
+                        // 第三步：使用 Intent 携带 Bundle
+                        intent.putExtras(bundle)
+
+                        // 第四步：启动 ResultActivity
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("下一步")
+                }
+            }
         }
     }
 }
-
 ```
 
-
+### ResultActivity.kt
 
 ```kotlin
-// ResultActivity.kt
-
 package com.example.exp5
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.exp5.ui.theme.Exp5Theme
 
 class ResultActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
-        // 实验内容一：ResultActivity 获取数据的三个步骤
-        // 1. 获得MainActivity传递来的Intent
+        // 第一步：获得 MainActivity 传递来的 Intent
         val intent = intent
-        // 2. 获得Intent携带的Bundle
+
+        // 第二步：获得 Intent 携带的 Bundle
         val bundle = intent.extras
-        // 3. 通过Bundle获得对应数据
+
+        // 第三步：通过 Bundle 获得对应数据
         val username = bundle?.getString("username") ?: ""
         val password = bundle?.getString("password") ?: ""
-        val address = bundle?.getString("address") ?: ""
+        val address = bundle?.getString("address") ?: "未选择"
 
         setContent {
-            Exp5Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ResultScreen(
-                        username = username,
-                        password = password,
-                        address = address,
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            ResultScreen(
+                username = username,
+                password = password,
+                address = address
+            )
         }
     }
 }
@@ -208,48 +166,29 @@ class ResultActivity : ComponentActivity() {
 fun ResultScreen(
     username: String,
     password: String,
-    address: String,
-    modifier: Modifier = Modifier
+    address: String
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
-            text = "您的注册信息",
+            text = "注册信息",
             style = MaterialTheme.typography.headlineMedium
         )
-        InfoRow(label = "用户名", value = username)
-        InfoRow(label = "密码", value = password)
-        InfoRow(label = "地址", value = address)
-    }
-}
 
-@Composable
-fun InfoRow(label: String, value: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "$label：",
-            style = MaterialTheme.typography.bodyLarge
-        )
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyLarge
-        )
+        Text(text = "用户名：$username")
+        Text(text = "密码：$password")
+        Text(text = "地址：$address")
     }
 }
 ```
 
-
+### AddressSelectedAcitivity.kt
 
 ```kotlin
-// AddressSelectedAcitivity.kt
-
 package com.example.exp5
 
 import android.app.Activity
@@ -257,22 +196,16 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.exp5.ui.theme.Exp5Theme
 
+// 显示可供选择的地址列表
+// 点击地址后，将选中的地址放入Intent
+// 使用 setResult 返回数据，并使用 finish 关闭当前页面
 class AddressSelectedActivity : ComponentActivity() {
 
     private val addressList = listOf(
@@ -282,85 +215,46 @@ class AddressSelectedActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
-            Exp5Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AddressListScreen(
-                        addresses = addressList,
-                        modifier = Modifier.padding(innerPadding),
-                        onAddressClick = { selected ->
-                            // 实验内容二 步骤2：将返回数据放入 Intent，
-                            // 通过 setResult() 设置返回结果，并调用 finish() 关闭当前 Activity
-                            val intent = Intent()
-                            intent.putExtra("address", selected)
-                            setResult(Activity.RESULT_OK, intent)
-                            finish()
-                        }
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text("请选择地址")
+
+                addressList.forEach { address ->
+                    Text(
+                        text = address,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                val intent = Intent()
+                                intent.putExtra("address", address)
+                                setResult(Activity.RESULT_OK, intent)
+                                finish()
+                            }
+                            .padding(12.dp)
                     )
                 }
             }
         }
     }
 }
-
-@Composable
-fun AddressListScreen(
-    addresses: List<String>,
-    modifier: Modifier = Modifier,
-    onAddressClick: (String) -> Unit
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(0.dp)
-    ) {
-        Text(
-            text = "请选择地址",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-        )
-        addresses.forEach { address ->
-            Text(
-                text = address,
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onAddressClick(address) }
-                    .padding(horizontal = 16.dp, vertical = 16.dp)
-            )
-            HorizontalDivider()
-        }
-    }
-}
 ```
 
-```xml
-AndroidManifest
+### AndroidManifest.xml
 
+```xml
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.Exp5">
+        android:theme="@style/Theme.Exp5"
+        android:label="@string/app_name">
+
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Exp5"
-            android:windowSoftInputMode="adjustResize">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -371,7 +265,6 @@ AndroidManifest
             android:name=".ResultActivity"
             android:exported="false" />
     </application>
-
 </manifest>
 ```
 
