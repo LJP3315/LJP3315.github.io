@@ -1,7 +1,7 @@
 ---
 layout: home
 author_profile: true
-title: "离暗 的个人博客"
+title: "主页面"
 ---
 
 ![离暗](/assets/images/离暗.jpg){: loading="lazy"}
