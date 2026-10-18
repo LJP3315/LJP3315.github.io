@@ -144,9 +144,15 @@
   }
 
   img {
-    max-width: 110px;
+    // 移动端：锁死 36px 完整圆形。原先只写 max-width: 110px，而
+    // .author__avatar 是 36px 的 table-cell，110px 的图会被裁掉大半只剩一角。
+    display: block;
+    width: 36px;
+    height: 36px;
+    max-width: 36px;
+    object-fit: cover; // 源图不是正方形时按比例裁切填充，不会拉变形
     border-radius: 50% !important;
-    border: 3px solid transparent !important;
+    border: 0;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease !important;
 
     &:hover {
@@ -155,6 +161,9 @@
     }
 
     @include breakpoint($large) {
+      // 桌面端：宽高都锁死，保证是正圆而不是随源图比例变形的椭圆
+      width: 100px !important;
+      height: 100px !important;
       max-width: 100px !important;
       padding: 0 !important;
       // 天空蓝渐变光环

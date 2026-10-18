@@ -1,7 +1,10 @@
 <!-- start custom head snippets -->
 
-<!-- 网站图标 -->
-<link rel="icon" type="image/png" href="{{ '/assets/images/webseit-image.png' | relative_url }}" />
+<!-- 网站图标：/favicon.ico 内含 16/32/48/64 四帧，浏览器按屏幕像素密度自选；
+     192 供 Android 主屏与高分屏标签页；apple-touch-icon 必须是实底（iOS 不支持透明，会渲染成黑） -->
+<link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="any" />
+<link rel="icon" type="image/png" sizes="192x192" href="{{ '/assets/images/favicon-192.png' | relative_url }}" />
+<link rel="apple-touch-icon" href="{{ '/assets/images/apple-touch-icon.png' | relative_url }}" />
 
 <!-- 霞鹜文楷（正文字体，含 LXGW WenKai Mono，现作为代码字体的回退） -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" />
