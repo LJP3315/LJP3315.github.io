@@ -523,6 +523,32 @@ html.has-music-player.ap-positioned .aplayer.aplayer-fixed .aplayer-body {
   bottom: var(--ap-bottom, 12px);
 }
 
+// 层级：APlayer 默认只在 z-index: 99 附近，会被页面上的几样东西压住 ——
+//   .masthead 顶部导航 100、.floating-toc 浮动目录 100、
+//   #toggle-sidebar-btn 侧边栏折叠按钮 999
+// 手机上把播放列表展开时，这些元素就会盖在弹窗上面（目录按钮尤其明显，
+// 它正好停在播放器右上方）。这里统一抬到 1030：
+//   高于上面所有页面元素，又低于图片灯箱（magnific-popup 从 1040 起），
+//   这样看大图时灯箱仍然在最上层，播放器不会压住它。
+html.has-music-player .aplayer.aplayer-fixed,
+html.has-music-player .aplayer.aplayer-fixed .aplayer-body {
+  z-index: 1030;
+}
+
+// 手机上 iOS Safari 的底部工具栏/标签栏会盖住 position: fixed 的底部元素。
+// 有 env(safe-area-inset-bottom) 时把播放器往上顶一点（viewport-fit=cover 才非 0）。
+@supports (padding: env(safe-area-inset-bottom)) {
+  html.has-music-player .aplayer.aplayer-fixed,
+  html.has-music-player .aplayer.aplayer-fixed .aplayer-body {
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  html.has-music-player.ap-positioned .aplayer.aplayer-fixed,
+  html.has-music-player.ap-positioned .aplayer.aplayer-fixed .aplayer-body {
+    bottom: calc(var(--ap-bottom, 12px) + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 // 播放列表面板的宽度跟随播放条。APlayer 会从 body 的 offsetWidth 里扣掉 18px 的开关条，
 // 不锁宽度的话容器会按内容 shrink-to-fit，展开后比播放条窄一截。
 html.has-music-player .aplayer.aplayer-fixed {

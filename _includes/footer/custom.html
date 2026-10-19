@@ -394,6 +394,12 @@
     if (typeof window.wbSyncSidebarToggle === 'function') {
       try { window.wbSyncSidebarToggle(); } catch (err) {}
     }
+
+    // ⑥ 侧边栏「关注」按钮重绑
+    //    主题 _main.js 里是 $(".author__urls-wrapper button").on("click", ...)，
+    //    只在 document.ready 时给当时的 <button> 绑一次；PJAX 换页后侧边栏随
+    //    .initial-content 一起被替换，新按钮身上没有任何监听器 → 手机上点了没反应。
+    try { bindAuthorFollow(imported); } catch (err) {}
   }
 
   /* —— 抓取并替换 .initial-content —— */
@@ -449,6 +455,32 @@
         location.href = url;     // 请求/解析失败回落整页跳转
       });
   }
+
+  /* —— 侧边栏「关注」按钮：自己绑一份，摆脱主题的一次性绑定 —— */
+  /* 小屏（手机上）才有这个按钮，点它展开/收起社交链接列表。
+     逻辑与主题保持一致：给 .author__urls 切 is--visible，给按钮切 open
+     （open 会让按钮的 ::before 全屏遮罩接管点击，从而实现「点外面关闭」）。
+     用 data-wb-follow 打标，重复调用不会叠加监听。 */
+  function bindAuthorFollow(scope) {
+    var btns = (scope || document).querySelectorAll('.author__urls-wrapper button');
+    for (var i = 0; i < btns.length; i++) {
+      (function (btn) {
+        if (btn.getAttribute('data-wb-follow') === '1') return;
+        btn.setAttribute('data-wb-follow', '1');
+        btn.addEventListener('click', function () {
+          var wrapper = btn.closest('.author__urls-wrapper');
+          var urls = wrapper && wrapper.querySelector('.author__urls');
+          if (!urls) return;
+          var open = urls.classList.toggle('is--visible');
+          btn.classList.toggle('open', open);
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      })(btns[i]);
+    }
+  }
+
+  // 首屏不做任何事：那时的按钮由主题 _main.js 负责（整页加载时它是好的）。
+  // 只有 PJAX 换页后新按钮没人管，所以在 reInit 里补绑，避免同一次点击被 toggle 两次。
 
   // 离开当前 URL 前记住滚动位置，后退回来时恢复
   function rememberScroll() {
