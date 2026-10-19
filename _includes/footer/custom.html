@@ -139,12 +139,24 @@
     };
   }
 
+  // 吸顶导航栏（.masthead）一直占着视口顶部，播放器不能拖进去：
+  // 一旦重叠，不管谁在上层都难看 —— 手机上尤其明显，部分浏览器内核
+  // （带 backdrop-filter 的 sticky 顶栏）还会无视 z-index 直接盖住播放器。
+  // 所以这里给出「可以从多高开始放」的下限。
+  function topLimit() {
+    var m = document.querySelector('.masthead');
+    if (!m) return EDGE;
+    var r = m.getBoundingClientRect();
+    if (r.bottom <= 0 || r.bottom > window.innerHeight) return EDGE;  // 取不到高度时退回最小边距
+    return Math.max(EDGE, r.bottom);
+  }
+
   // 把 pos 换算成 CSS 变量并写回页面（含边界收敛）
   function apply() {
     if (!pos) return;
     var size = widgetSize();
     pos.x = clamp(pos.x, EDGE, Math.max(EDGE, window.innerWidth - size.w - EDGE));
-    pos.y = clamp(pos.y, EDGE, Math.max(EDGE, window.innerHeight - size.h - EDGE));
+    pos.y = clamp(pos.y, EDGE, Math.max(EDGE, window.innerHeight - size.h - topLimit()));
     container.style.setProperty('--ap-left', Math.round(pos.x) + 'px');
     container.style.setProperty('--ap-bottom', Math.round(pos.y) + 'px');
     ROOT.classList.add('ap-positioned');
