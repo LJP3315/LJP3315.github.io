@@ -313,7 +313,17 @@
 .author__urls {
   display: none;
   position: absolute;
-  inset-inline-end: 0;
+  // 手机端弹层：以「关注」按钮的水平中心为基准展开
+  // 原来这里是 inset-inline-end: 0（面板右缘贴 wrapper 右缘），
+  // 面板比按钮宽得多（内容有 China-ChangSha / Email / GitHub 之类），
+  // 结果整个面板往左甩出去，而下面的小三角箭头是按面板 50% 定位的，
+  // 于是箭头指向面板中心、不在按钮正下方 —— 视觉上就是「没对齐」。
+  // 改成起点放在按钮中心（wrapper 宽度≈按钮宽度），再整体左移自身一半，
+  // 面板和箭头就同时对齐到按钮中心了。
+  inset-inline-start: 50%;
+  inset-inline-end: auto;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 24px);
   margin-top: 15px;
   padding: 10px;
   list-style-type: none;
@@ -332,6 +342,10 @@
     display: flex !important;
     flex-direction: column !important;
     position: relative !important;
+    // 清掉手机端那套居中定位，否则 relative 元素会被 left/transform 推开
+    inset-inline-start: auto !important;
+    transform: none !important;
+    max-width: none !important;
     margin: 0 !important;
     padding: 0 !important;
     border: 0 !important;
