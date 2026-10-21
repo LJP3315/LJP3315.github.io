@@ -132,8 +132,8 @@
 .author__avatar {
   display: table-cell;
   vertical-align: top;
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
 
   @include breakpoint($large) {
     display: flex !important;
@@ -144,15 +144,18 @@
   }
 
   img {
-    // 移动端：锁死 36px 完整圆形。原先只写 max-width: 110px，而
+    // 移动端：锁死 48px 完整圆形。原先只写 max-width: 110px，而
     // .author__avatar 是 36px 的 table-cell，110px 的图会被裁掉大半只剩一角。
+    // 36px 时线稿细节被压成灰糊，放大到 48px 后五官才立得住。
     display: block;
-    width: 36px;
-    height: 36px;
-    max-width: 36px;
+    width: 48px;
+    height: 48px;
+    max-width: 48px;
     object-fit: cover; // 源图不是正方形时按比例裁切填充，不会拉变形
     border-radius: 50% !important;
     border: 0;
+    // 白色发丝边缘在白底上会糊掉，用 1px 细环把轮廓勾出来
+    box-shadow: 0 0 0 1px var(--primary-light);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease !important;
 
     &:hover {
