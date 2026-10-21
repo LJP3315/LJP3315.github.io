@@ -58,7 +58,6 @@ ConstraintLayout:约束布局，通过指定组件与其他组件、父容器之
 
 
 ```kotlin
-
 @Composable
 fun LoginScreenConstraint() {
     var username by remember { mutableStateOf("") }
@@ -122,7 +121,6 @@ fun LoginScreenConstraint() {
         }
     }
 }
-
 ```
 
 
