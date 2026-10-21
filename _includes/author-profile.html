@@ -7,13 +7,23 @@
   {% if author.avatar %}
     <div class="author__avatar">
       <a href="{{ author.home | default: '/' | absolute_url }}">
-        <img src="{{ author.avatar | relative_url }}"
-             srcset="{{ '/assets/images/author-avatar-72.jpg' | relative_url }} 72w,
-                     {{ '/assets/images/author-avatar-144.jpg' | relative_url }} 144w,
-                     {{ '/assets/images/author-avatar-432.jpg' | relative_url }} 432w"
-             sizes="(min-width: 1024px) 100px, 48px"
-             width="48" height="48" loading="eager" decoding="async"
-             alt="{{ author.name }}" itemprop="image" class="u-photo">
+        {% comment %}
+          两端用不同构图：桌面 100px 圆用完整构图（wide），手机 48px 圆用脸部特写。
+          <source> 里的 1024px 必须与 _sass/minimal-mistakes/_variables.scss 的 $large
+          保持一致，否则会出现「图换了、尺寸没换」的错位。
+        {% endcomment %}
+        <picture>
+          <source media="(min-width: 1024px)"
+                  srcset="{{ '/assets/images/author-avatar-wide-216.jpg' | relative_url }} 1x,
+                          {{ '/assets/images/author-avatar-wide-432.jpg' | relative_url }} 2x">
+          <img src="{{ author.avatar | relative_url }}"
+               srcset="{{ '/assets/images/author-avatar-72.jpg' | relative_url }} 72w,
+                       {{ '/assets/images/author-avatar-144.jpg' | relative_url }} 144w,
+                       {{ '/assets/images/author-avatar-432.jpg' | relative_url }} 432w"
+               sizes="48px"
+               width="48" height="48" loading="eager" decoding="async"
+               alt="{{ author.name }}" itemprop="image" class="u-photo">
+        </picture>
       </a>
     </div>
   {% endif %}

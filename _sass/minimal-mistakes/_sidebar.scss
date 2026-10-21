@@ -143,10 +143,15 @@
     margin-bottom: 1.2em !important;
   }
 
+  // <picture> 默认 inline，会在 table-cell 里留下基线缝隙，也会让桌面端的 flex 居中失效
+  picture {
+    display: block;
+  }
+
   img {
-    // 移动端：锁死 48px 完整圆形。原先只写 max-width: 110px，而
-    // .author__avatar 是 36px 的 table-cell，110px 的图会被裁掉大半只剩一角。
-    // 36px 时线稿细节被压成灰糊，放大到 48px 后五官才立得住。
+    // 移动端：锁死 48px 完整圆形。原先只写 max-width: 110px，而 .author__avatar
+    // 只有 36px，110px 的图会被裁掉大半只剩一角。
+    // 手机端用的是脸部特写版（author-avatar-*），桌面端由 <picture> 换成完整构图版。
     display: block;
     width: 48px;
     height: 48px;
