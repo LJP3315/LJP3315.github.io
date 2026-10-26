@@ -114,13 +114,15 @@ analytics:
 
 # Site Author
 author:
-  name             : 离暗
+  name             : 離暗
   avatar           : /assets/images/author-avatar-432.jpg
-  bio              : "软件工程在读 前25% (<br>
-  CSUFT-ACM集训队 orz<br>
-  26年天梯赛CSUFT1队队长<br>
+  bio              : "
+  软件工程在读<br>
+  CSUFT-ACM集训队<br>
+  26年天梯赛CSUFT1队队长 😋<br>
   HNCPC-ACM赛道-CSUFT4队 铁牌😭<br>
-  <em>“别墨守陈规，去创造你自己的规则”</em>"
+  <em>“别墨守陈规，去创造你自己的规则”</em> <br>
+  <em>“心如止水，思如泉涌”</em>"
   location         : China-ChangSha
   # email            : 3382353764@qq.com
   # fediverse      : "@you@instance.social"  # used for fediverse:creator meta tag
