@@ -51,7 +51,20 @@
       {% if author.links %}
         {% for link in author.links %}
           {% if link.label and link.url %}
-            <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer me"{% if link.url contains 'http' %} itemprop="sameAs"{% endif %}><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i><span class="label">{{ link.label }}</span></a></li>
+            {% comment %}
+              icon_image 优先于 icon：Font Awesome 没有的图标（如 Codeforces）
+              用自定义 svg，配合 _sidebar.scss 里的 mask 让颜色跟随链接的 currentColor。
+            {% endcomment %}
+            <li>
+              <a href="{{ link.url }}" rel="nofollow noopener noreferrer me"{% if link.url contains 'http' %} itemprop="sameAs"{% endif %}>
+                {% if link.icon_image %}
+                  <span class="author__urls-icon" style="--author-icon: url('{{ link.icon_image | relative_url }}');" aria-hidden="true"></span>
+                {% else %}
+                  <i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i>
+                {% endif %}
+                <span class="label">{{ link.label }}</span>
+              </a>
+            </li>
           {% endif %}
         {% endfor %}
       {% endif %}

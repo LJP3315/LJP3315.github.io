@@ -428,6 +428,26 @@
       transition: color 0.2s ease, transform 0.2s ease !important;
     }
 
+    // 自定义 svg 图标（Font Awesome 没有的，如 Codeforces）。
+    // 用 mask 而非 <img>：颜色直接吃 currentColor，悬停变色/放大与 FA 图标一致。
+    // 用法：_config.yml 的 author.links 里写 icon_image: "/assets/images/xxx.svg"
+    .author__urls-icon {
+      display: inline-block !important;
+      width: 1.1em !important;
+      height: 1.1em !important;
+      flex-shrink: 0 !important;
+      background-color: currentColor !important;
+      -webkit-mask-image: var(--author-icon);
+      mask-image: var(--author-icon);
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      transition: transform 0.2s ease !important;
+    }
+
     span.label {
       font-size: 0.9em !important;
       font-family: $sans-serif !important;
@@ -442,6 +462,10 @@
       i,
       svg {
         color: var(--primary) !important;
+        transform: scale(1.2) !important;
+      }
+
+      .author__urls-icon {
         transform: scale(1.2) !important;
       }
     }

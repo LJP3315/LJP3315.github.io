@@ -140,6 +140,11 @@ author:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/LJP3315"
+    # ↓ Codeforces：Font Awesome 没有这个图标，所以用 icon_image 直接指向自定义 svg
+    #   （图标文件在 assets/images/codeforces.svg，只改下面 url 这一行即可）
+    - label: "Codeforces"
+      icon_image: "/assets/images/codeforces.svg"
+      url: "https://codeforces.com/profile/Lyon-LiAn"
     # - label: "Instagram"
     #   icon: "fab fa-fw fa-instagram"
     #   # url: "https://instagram.com/"
