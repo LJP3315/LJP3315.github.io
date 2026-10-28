@@ -129,8 +129,8 @@ author:
   # fediverse      : "@you@instance.social"  # used for fediverse:creator meta tag
   links:
     - label: "Email"
-      icon: "fas fa-fw fa-square-envelope"
-      url: "mailto:3382353764@qq.com"
+      icon: "/assets/images/gmail.svg"
+      url: "lijiapeng3315@gmail.com"
     # - label: "Website"
     #   icon: "fas fa-fw fa-link"
     #   # url: "https://your-website.com"
@@ -141,7 +141,7 @@ author:
     #   icon: "fab fa-fw fa-square-facebook"
     #   # url: "https://facebook.com/"
     - label: "GitHub"
-      icon: "fab fa-fw fa-github"
+      icon: "/assets/images/github.svg"
       url: "https://github.com/LJP3315"
     # ↓ Codeforces：Font Awesome 没有这个图标，所以用 icon_image 直接指向自定义 svg
     #   （图标文件在 assets/images/codeforces.svg，只改下面 url 这一行即可）
