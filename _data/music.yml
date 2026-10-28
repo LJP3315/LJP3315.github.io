@@ -43,3 +43,7 @@
 - name: "前前前世"
   artist: "Your Name"
   url: "/assets/audio/前前前世.mp3"
+
+- name: "Rain"
+  artist: "花泽香菜"
+  url: "/assets/audio/Rain.aac"
