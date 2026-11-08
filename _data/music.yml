@@ -47,3 +47,7 @@
 - name: "Rain"
   artist: "花泽香菜"
   url: "/assets/audio/Rain.mp3"
+
+- name: "烟火里的尘埃"
+  artist: "华晨宇"
+  url: "/assets/audio/烟火里的尘埃.mp3"
